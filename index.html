@@ -10,7 +10,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#f5f5f5;--mute:#8e8e93;--blue:#0a84ff;--red:#e50914;--ease:cubic-bezier(.2,.8,.2,1);--bass:0;
+  --ink:#f5f5f5;--mute:#8e8e93;--blue:#0a84ff;--red:#e50914;--ease:cubic-bezier(.2,.8,.2,1);--trEase:cubic-bezier(.16,1,.3,1);--bass:0;
   --sil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='36' r='16' fill='%23fff'/%3E%3Cpath d='M10 100C10 72 28 62 50 62s40 10 40 38z' fill='%23fff'/%3E%3C/svg%3E");
   --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -23,12 +23,23 @@ button{font:inherit;color:inherit;cursor:pointer}
 #stage{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000}
 #bassWrap{position:absolute;inset:0;transform:translate3d(0,0,0) scale(calc(1 + var(--bass) * 0.025));will-change:transform}
 #world{position:absolute;inset:0;transition:filter .18s ease-out}
-#world.shake{animation:shake .24s steps(1) 1}
-#world.beat{animation:beatPulse .22s ease-out 1}
-#world.mblur{animation:motionBlur .34s cubic-bezier(.16,1,.3,1) 1}
-@keyframes motionBlur{0%{filter:blur(10px) brightness(1.18) saturate(1.3)}45%{filter:blur(3px) brightness(1.06)}100%{filter:blur(0) brightness(1)}}
-@keyframes shake{0%{transform:translate3d(-.55rem,.15rem,0) skewX(-1.4deg) scale(1.02)}33%{transform:translate3d(.65rem,-.15rem,0) scale(1.015)}66%{transform:translate3d(-.35rem,0,0) skewX(1deg)}100%{transform:none}}
-@keyframes beatPulse{0%{transform:scale(1.028)}100%{transform:scale(1)}}
+#world.shake{animation:shake .26s steps(1) 1}
+#world.beat{animation:beatPulse .24s ease-out 1}
+#world.mblur{animation:motionBlur .38s var(--trEase) 1}
+@keyframes motionBlur{0%{filter:blur(12px) brightness(1.24) saturate(1.35)}45%{filter:blur(3.5px) brightness(1.08)}100%{filter:blur(0) brightness(1)}}
+@keyframes shake{0%{transform:translate3d(-.65rem,.18rem,0) skewX(-1.6deg) scale(1.025)}33%{transform:translate3d(.7rem,-.18rem,0) scale(1.02)}66%{transform:translate3d(-.38rem,0,0) skewX(1.2deg)}100%{transform:none}}
+@keyframes beatPulse{0%{transform:scale(1.035)}100%{transform:scale(1)}}
+
+/* ---------- Kilatan & Whip Transisi Antar Foto/Scene ---------- */
+#trFlash{position:absolute;inset:0;pointer-events:none;z-index:24;opacity:0;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.32) 0%,rgba(229,9,20,.28) 55%,transparent 90%);
+  mix-blend-mode:screen}
+#trFlash.on{animation:trFlashAnim .36s var(--trEase) 1}
+@keyframes trFlashAnim{
+  0%{opacity:.95;transform:scale(1.08)}
+  35%{opacity:.42;transform:scale(1.02)}
+  100%{opacity:0;transform:scale(1)}
+}
 
 #fxCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:22}
 
@@ -47,9 +58,30 @@ button{font:inherit;color:inherit;cursor:pointer}
 .letterbox.top{top:0;border-bottom:1px solid rgba(229,9,20,.18)}
 .letterbox.bot{bottom:0;border-top:1px solid rgba(229,9,20,.18)}
 
-.scene{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;transform:scale(1.045);filter:blur(9px);transition:opacity .38s ease,transform .62s var(--ease),filter .42s var(--ease),visibility 0s linear .38s;will-change:opacity,transform,filter}
-.scene[data-tr="cut"]{filter:blur(6px);transition:opacity .12s ease-out,transform .16s ease-out,filter .18s ease-out,visibility 0s linear .12s}
-.scene.on{opacity:1;visibility:visible;transform:scale(1);filter:blur(0);transition-delay:0s}
+/* ---------- Sistem Transisi Masuk & Keluar Antar Scene ---------- */
+.scene{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;z-index:1;
+  transform:translate3d(0,0,0) scale(1.16);
+  filter:blur(14px) brightness(1.25);
+  transition:opacity .42s var(--trEase),transform .58s var(--trEase),filter .46s var(--trEase),visibility 0s linear .44s;
+  will-change:opacity,transform,filter}
+
+/* Variasi Arah Transisi Setiap Pergantian Foto/Adegan */
+.scene[data-in="zoomIn"]{transform:scale(1.28);filter:blur(16px) brightness(1.3)}
+.scene[data-in="zoomOut"]{transform:scale(.82);filter:blur(14px) brightness(1.25)}
+.scene[data-in="slideL"]{transform:translate3d(26%,0,0) scale(1.08) skewX(-5deg);filter:blur(14px)}
+.scene[data-in="slideR"]{transform:translate3d(-26%,0,0) scale(1.08) skewX(5deg);filter:blur(14px)}
+.scene[data-in="slideU"]{transform:translate3d(0,22%,0) scale(1.08);filter:blur(14px)}
+.scene[data-in="spin"]{transform:scale(1.24) rotate(-6deg);filter:blur(15px)}
+
+/* Posisi Keluar Scene Lama (Whip-Out / Zoom-Out mulus tumpang tindih dengan Scene Baru) */
+.scene.exiting{opacity:0;visibility:visible;z-index:1;
+  transform:scale(.86) translate3d(-10%,0,0);
+  filter:blur(14px) brightness(.75);
+  transition:opacity .38s ease-out,transform .46s var(--trEase),filter .38s ease-out,visibility 0s linear .42s}
+
+.scene[data-tr="cut"]{filter:blur(8px);transition:opacity .16s ease-out,transform .22s var(--trEase),filter .2s ease-out,visibility 0s linear .18s}
+.scene.on{opacity:1;visibility:visible;z-index:2;transform:translate3d(0,0,0) scale(1) rotate(0deg) skewX(0deg);filter:blur(0) brightness(1);transition-delay:0s}
+
 .cam{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;will-change:transform}
 .sway{position:absolute;inset:0;will-change:transform}
 .scene.live .sway{animation:sway 5s ease-in-out infinite alternate}
@@ -109,7 +141,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .frm .mat{position:relative;width:100%;height:100%;background:#e4e4e7;padding:.75rem}
 .frm .img{width:100%;height:100%}
 #s2.live .frm{animation:frmIn .55s var(--ease) both;animation-delay:var(--d,0s)}
-@keyframes frmIn{from{opacity:0;filter:blur(5px);transform:translate3d(0,1.2rem,0) scale(.92) rotate(var(--r,0deg))}to{opacity:1;filter:blur(0);transform:rotate(var(--r,0deg))}}
+@keyframes frmIn{from{opacity:0;filter:blur(6px);transform:translate3d(0,1.6rem,0) scale(.86) rotate(var(--r,0deg))}to{opacity:1;filter:blur(0);transform:rotate(var(--r,0deg))}}
 .s2-lyric-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:.65rem;background:rgba(10,10,12,.88);backdrop-filter:blur(12px);border:1.5px solid var(--red);border-radius:1.25rem;padding:1.1rem 1.8rem;box-shadow:0 1rem 2.6rem rgba(0,0,0,.92),0 0 1.6rem rgba(229,9,20,.45)}
 .s2-lyric-center .b{font-size:1.55rem;font-weight:900;color:#fff;letter-spacing:-.02em;white-space:nowrap;text-shadow:-1px 0 rgba(255,0,50,.65),1px 0 rgba(0,220,255,.55)}
 .s2-lyric-center .e{font-size:1.15rem;letter-spacing:.45rem;padding-left:.45rem}
@@ -242,7 +274,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .caret{display:inline-block;width:.16rem;height:1.2rem;background:var(--red);vertical-align:-.2rem;margin-left:.1rem;animation:blink .7s steps(1) infinite}
 .caret.blue{height:1.5rem}
 
-/* S10 UI DM IG (BERLIN DIGANTI KUROO + CAMERA ZOOM) */
+/* S10 UI DM IG (KUROO) */
 #s10{background:radial-gradient(90% 70% at 20% 10%,#380b11 0%,#1a1a1d 50%,#09090b 100%)}
 #s10.live .cam{animation:s10c 3.4s cubic-bezier(.45,.05,.25,1) both}
 @keyframes s10c{0%,28%{transform-origin:45% 24%;transform:scale(1.05) translate3d(.5rem,0,0)}55%,100%{transform-origin:34% 52%;transform:scale(1.48) translate3d(1.5rem,-2rem,0)}}
@@ -336,7 +368,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pup{position:absolute;left:50%;top:50%;width:2.1rem;height:2.1rem;margin:-1.05rem;border-radius:50%;background:#0b0503}
 .gl{position:absolute;left:22%;top:18%;width:1rem;height:1rem;border-radius:50%;background:#fff;opacity:.92}
 
-/* S15 PANGGILAN (NAMA HP: KUROO) */
+/* S15 PANGGILAN (KUROO) */
 #s15{background:radial-gradient(100% 70% at 55% 28%,#400b12 0%,#1f1416 45%,#070708 100%)}
 #s15.live .cam{animation:s15c 7.8s linear both}
 @keyframes s15c{from{transform:scale(1.03) translate3d(.6rem,0,0)}to{transform:scale(1.13) translate3d(-1rem,0,0)}}
@@ -431,7 +463,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div id="bassWrap">
     <div id="world">
       <!-- S1 LOCKSCREEN -->
-      <section class="scene" id="s1" aria-hidden="true">
+      <section class="scene" id="s1" data-in="zoomIn" aria-hidden="true">
         <div class="img ls-bg" data-slot="avatar" data-tone="1"></div>
         <div class="ls-shade"></div>
         <div class="cam">
@@ -458,7 +490,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       </section>
 
       <!-- S2 GALERI 3 FOTO + CAMERA LOCK KE LIRIK -->
-      <section class="scene" id="s2" aria-hidden="true"><div class="cam">
+      <section class="scene" id="s2" data-in="slideL" aria-hidden="true"><div class="cam">
         <div class="frm" style="--x:-10.8rem;--y:-15.5rem;--w:10.5rem;--h:13.5rem;--r:-4deg;--d:.0s"><div class="mat"><div class="img" data-slot="gal1" data-tone="1"></div></div></div>
         <div class="frm" style="--x:1.5rem;--y:-14.5rem;--w:9.8rem;--h:12.5rem;--r:3.5deg;--d:.08s"><div class="mat"><div class="img" data-slot="gal2" data-tone="4"></div></div></div>
         <div class="frm" style="--x:-5.5rem;--y:5.2rem;--w:12.5rem;--h:11rem;--r:-2deg;--d:.15s"><div class="mat"><div class="img" data-slot="gal3" data-tone="2"></div></div></div>
@@ -466,7 +498,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></section>
 
       <!-- S3 IKON MUSIK -->
-      <section class="scene" id="s3" aria-hidden="true"><div class="cam">
+      <section class="scene" id="s3" data-in="spin" aria-hidden="true"><div class="cam">
         <div class="iconwrap"><div class="appicon"><div class="eq"><i></i><i></i><i></i><i></i><i></i></div></div></div>
         <div class="capwrap"><div class="rv" style="--d:.2s" data-bind="s3cap">Give my kidney</div></div>
         <div class="player">
@@ -477,10 +509,10 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></section>
 
       <!-- S4 TEKS KINETIK -->
-      <section class="scene" id="s4" aria-hidden="true"><div class="cam"><div id="kin"></div></div></section>
+      <section class="scene" id="s4" data-in="slideR" aria-hidden="true"><div class="cam"><div id="kin"></div></div></section>
 
       <!-- S5 POTRET -->
-      <section class="scene" id="s5" aria-hidden="true"><div class="cam">
+      <section class="scene" id="s5" data-in="zoomIn" aria-hidden="true"><div class="cam">
         <div class="pic"><div class="img" data-slot="portrait" data-tone="2"></div></div>
         <div class="shade"></div>
         <div class="tag rv" style="--d:.08s" data-bind="timeTag">OPIUM · 00</div>
@@ -488,30 +520,30 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></section>
 
       <!-- S6 SELEKSI TEKS -->
-      <section class="scene" id="s6" data-tr="cut" aria-hidden="true"><div class="cam">
+      <section class="scene" id="s6" data-in="zoomOut" data-tr="cut" aria-hidden="true"><div class="cam">
         <div class="img zoomimg" data-slot="portrait" data-tone="2"></div>
         <div class="seltxt"><span id="selA">Same</span><span class="sel"><i class="hd l"></i><span id="selB">Damn Time</span><i class="hd r"></i></span></div>
       </div></section>
 
       <!-- S7 GLITCH + SWAG -->
-      <section class="scene" id="s7" data-tr="cut" aria-hidden="true"><div class="cam"><div class="panel" id="panel">
+      <section class="scene" id="s7" data-in="slideU" data-tr="cut" aria-hidden="true"><div class="cam"><div class="panel" id="panel">
         <div class="scanl"></div><div class="star">†</div><div class="band"></div><div class="swag-stamp">SWAG</div>
       </div></div></section>
 
       <!-- S8 HANDLE SOSIAL -->
-      <section class="scene" id="s8" data-tr="cut" aria-hidden="true"><div class="cam"><div class="soc">
+      <section class="scene" id="s8" data-in="zoomIn" data-tr="cut" aria-hidden="true"><div class="cam"><div class="soc">
         <div class="appicon2"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.8 3 3 6.6 3 11c0 2.4 1.1 4.5 2.9 6L5 21l4.1-2c.9.2 1.9.4 2.9.4 5.2 0 9-3.6 9-8S17.2 3 12 3z"/></svg></div>
         <div><div class="soc-h">@<span data-bind="handle">kuroo</span></div><div class="soc-s" data-bind="lastSeen">Wrist in the freezer</div></div>
       </div></div></section>
 
       <!-- S9 CATATAN -->
-      <section class="scene" id="s9" aria-hidden="true"><div class="cam"><div class="notes">
+      <section class="scene" id="s9" data-in="slideL" aria-hidden="true"><div class="cam"><div class="notes">
         <h3 id="nTitle" style="--i:0">Rather Lie</h3><ul id="nList"></ul>
         <div class="typedline"><span id="nPlain"></span><mark id="nMark"></mark><i class="caret"></i></div>
       </div></div></section>
 
-      <!-- S10 UI DM IG (BERLIN DIGANTI KUROO) -->
-      <section class="scene" id="s10" aria-hidden="true"><div class="cam"><div class="phone2wrap"><div class="phone2">
+      <!-- S10 UI DM IG (KUROO) -->
+      <section class="scene" id="s10" data-in="slideR" aria-hidden="true"><div class="cam"><div class="phone2wrap"><div class="phone2">
         <div class="p2-top"><span><span data-bind="handle">kuroo</span><i class="chev"></i></span><span class="live-dot">● 00PIUM</span></div>
         <div class="p2-search"><i class="mag"></i></div>
         <div class="p2-row">
@@ -536,7 +568,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></div></div></section>
 
       <!-- S11 HEADER CHAT -->
-      <section class="scene" id="s11" data-tr="cut" aria-hidden="true"><div class="cam"><div class="chat-top">
+      <section class="scene" id="s11" data-in="zoomIn" data-tr="cut" aria-hidden="true"><div class="cam"><div class="chat-top">
         <div class="status"><span>00:00</span><span class="ic"><i></i><i></i></span></div>
         <div class="navrow">
           <span class="circ back"><i></i></span>
@@ -546,26 +578,26 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></div></section>
 
       <!-- S12 BUBBLE CHAT -->
-      <section class="scene" id="s12" aria-hidden="true"><div class="cam"><div class="chat">
+      <section class="scene" id="s12" data-in="slideU" aria-hidden="true"><div class="cam"><div class="chat">
         <div class="bub in" id="bThem">It wasn't you, it's me</div>
         <div class="bub out"><span id="bMe"></span></div>
         <div class="read" id="readLbl">Delivered</div>
       </div></div></section>
 
       <!-- S13 KOLOM KETIK -->
-      <section class="scene" id="s13" data-tr="cut" aria-hidden="true"><div class="cam">
+      <section class="scene" id="s13" data-in="slideL" data-tr="cut" aria-hidden="true"><div class="cam">
         <div class="inbar"><span class="plus"></span><div class="pill"><span id="inTxt"></span><i class="caret blue"></i><i class="mic"></i></div></div>
         <div class="kbline"></div>
       </div></section>
 
       <!-- S14 MATA -->
-      <section class="scene" id="s14" aria-hidden="true"><div class="cam"><div class="eyes">
+      <section class="scene" id="s14" data-in="zoomOut" aria-hidden="true"><div class="cam"><div class="eyes">
         <div class="eye"><div class="iris"><div class="pup"></div><i class="gl"></i></div></div>
         <div class="eye"><div class="iris"><div class="pup"></div><i class="gl"></i></div></div>
       </div></div></section>
 
-      <!-- S15 PANGGILAN (NAMA HP: KUROO) -->
-      <section class="scene" id="s15" aria-hidden="true"><div class="cam">
+      <!-- S15 PANGGILAN (KUROO) -->
+      <section class="scene" id="s15" data-in="slideR" aria-hidden="true"><div class="cam">
         <div class="callrow">
           <div class="phonew"><div class="phone"><div class="screen">
             <i class="isl"></i><div class="c-lbl">mobile</div>
@@ -587,6 +619,9 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></section>
     </div>
   </div>
+
+  <!-- KILATAN TRANSISI ANTAR ADEGAN -->
+  <div id="trFlash" aria-hidden="true"></div>
 
   <div id="fx" aria-hidden="true"><div class="vig"></div><div class="grain"></div><div class="scan"></div><div class="crtRoll"></div><i class="gb gb1"></i><i class="gb gb2"></i><i class="gb gb3"></i></div>
   <div id="vhsTop" aria-hidden="true"><span class="rec-badge"><i></i>REC</span><span>SP · OPIUM-CAM 00</span></div>
@@ -625,7 +660,7 @@ var CONFIG={
 };
 var DUR=[1.0,1.0,1.0,1.4,1.1,1.0,1.3,1.1,3.7,3.4,0.6,3.0,1.6,1.0,7.8];
 var $=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))},clamp=function(v,a,b){return v<a?a:v>b?b:v};
-var stage=$("#stage"),world=$("#world"),fx=$("#fx"),intro=$("#intro"),bgm=$("#bgm"),scenes=$$(".scene"),N=scenes.length,starts=[],TOTAL=0,i;
+var stage=$("#stage"),world=$("#world"),fx=$("#fx"),trFlash=$("#trFlash"),intro=$("#intro"),bgm=$("#bgm"),scenes=$$(".scene"),N=scenes.length,starts=[],TOTAL=0,i;
 for(i=0;i<N;i++){starts.push(TOTAL);TOTAL+=DUR[i];}
 
 var actx=null,analyser=null,freqData=null,audioConnected=false,bassLevel=0;
@@ -725,16 +760,37 @@ var cTime=$("#cTime");
 hooks[14]={enter:function(){wgrad=null;fitWave();},tick:function(lt){drawWave(lt);var q=Math.floor(lt)+24,s="00:"+q;if(cTime._s!==s){cTime._s=s;cTime.textContent=s;}},reset:function(){cTime._s=null;cTime.textContent="00:24";wctx.clearRect(0,0,wave.width,wave.height);}};
 
 var running=false,paused=false,autoPaused=false,started=false,cur=-1,t0=0,tPause=0,raf=0,restartTimer=0,leaveAt={},prog=$("#prog i"),tc=$("#tc"),lastSec=-1;
-function glitch(strong){fx.classList.remove("g1","g2");void fx.offsetWidth;fx.classList.add(strong?"g2":"g1");world.classList.remove("shake","beat","mblur");void world.offsetWidth;world.classList.add(strong?"shake":"beat","mblur");}
-function enter(k){var s=scenes[k];s.classList.remove("live","on");void s.offsetWidth;s.classList.add("live","on");delete leaveAt[k];if(hooks[k]&&hooks[k].enter)hooks[k].enter();if(k>0)glitch(s.getAttribute("data-tr")==="cut");}
-function leave(k,t){scenes[k].classList.remove("on");leaveAt[k]=t+.6;}
-function reset(){scenes.forEach(function(s){s.classList.remove("on","live");});cur=-1;leaveAt={};lastSec=-1;hooks.forEach(function(h){if(h&&h.reset)h.reset();});void stage.offsetWidth;}
+function glitch(strong){
+  fx.classList.remove("g1","g2");void fx.offsetWidth;fx.classList.add(strong?"g2":"g1");
+  trFlash.classList.remove("on");void trFlash.offsetWidth;trFlash.classList.add("on");
+  world.classList.remove("shake","beat","mblur");void world.offsetWidth;
+  world.classList.add(strong?"shake":"beat","mblur");
+}
+function enter(k){
+  var s=scenes[k];
+  s.classList.remove("live","on","exiting");void s.offsetWidth;
+  s.classList.add("live","on");delete leaveAt[k];
+  if(hooks[k]&&hooks[k].enter)hooks[k].enter();
+  if(k>0)glitch(s.getAttribute("data-tr")==="cut");
+}
+function leave(k,t){
+  var s=scenes[k];
+  s.classList.remove("on");
+  s.classList.add("exiting");
+  leaveAt[k]=t+.48;
+}
+function reset(){
+  scenes.forEach(function(s){s.classList.remove("on","live","exiting");});
+  cur=-1;leaveAt={};lastSec=-1;
+  hooks.forEach(function(h){if(h&&h.reset)h.reset();});
+  void stage.offsetWidth;
+}
 function update(now,t){
   updateBass(t);drawCanvas(now,cur===3||cur===4||cur===6);
   if(t>=TOTAL){finish();return;}
   var idx=0,k;for(k=0;k<N;k++)if(t>=starts[k])idx=k;
   if(idx!==cur){if(cur>=0)leave(cur,t);enter(idx);cur=idx;}
-  for(k in leaveAt)if(t>=leaveAt[k]){scenes[k].classList.remove("live");delete leaveAt[k];}
+  for(k in leaveAt)if(t>=leaveAt[k]){scenes[k].classList.remove("live","exiting");delete leaveAt[k];}
   var h=hooks[idx];if(h&&h.tick)h.tick(t-starts[idx]);
   prog.style.transform="scaleX("+(t/TOTAL).toFixed(4)+")";
   var sec=Math.floor(t);if(sec!==lastSec){lastSec=sec;tc.textContent="00:"+(sec<10?"0":"")+sec+" / 00:30";}
