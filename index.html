@@ -21,21 +21,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Ro
 button{font:inherit;color:inherit;cursor:pointer}
 
 #stage{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000;contain:strict}
-#bassWrap{position:absolute;inset:0;transform:translate3d(0,0,0) scale(calc(1 + var(--bass) * 0.022));will-change:transform}
+#bassWrap{position:absolute;inset:0;transform:translate3d(0,0,0) scale(calc(1 + var(--bass) * 0.02));will-change:transform}
 #world{position:absolute;inset:0;transform:translateZ(0);will-change:transform,filter}
 #world.beat{animation:beatPulse .24s ease-out 1}
 #world.mblur{animation:motionBlur .32s var(--trEase) 1}
 #world.invertFlash{animation:invFlash .22s steps(1) 1}
-@keyframes motionBlur{0%{filter:blur(5px) contrast(1.22) brightness(1.15)}100%{filter:blur(0) contrast(1) brightness(1)}}
-@keyframes beatPulse{0%{transform:translateZ(0) scale(1.028)}100%{transform:translateZ(0) scale(1)}}
-@keyframes invFlash{0%{filter:invert(1) contrast(1.4)}55%{filter:invert(0)}100%{filter:none}}
+@keyframes motionBlur{0%{filter:blur(5px) contrast(1.22) brightness(1.12)}100%{filter:blur(0) contrast(1) brightness(1)}}
+@keyframes beatPulse{0%{transform:translateZ(0) scale(1.024)}100%{transform:translateZ(0) scale(1)}}
+@keyframes invFlash{0%{filter:invert(1) contrast(1.35)}55%{filter:invert(0)}100%{filter:none}}
 
 /* ---------- Kilatan Flash Kamera Monokrom ---------- */
 #trFlash{position:absolute;inset:0;pointer-events:none;z-index:24;opacity:0;
-  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.36) 0%,rgba(255,255,255,.08) 60%,transparent 85%);
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.3) 0%,rgba(255,255,255,.06) 60%,transparent 85%);
   mix-blend-mode:screen;will-change:opacity}
 #trFlash.on{animation:trFlashAnim .32s var(--trEase) 1}
-@keyframes trFlashAnim{0%{opacity:.85}100%{opacity:0}}
+@keyframes trFlashAnim{0%{opacity:.8}100%{opacity:0}}
+
+/* ---------- Canvas Uang Dolar Jatuh ---------- */
+#moneyCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:19}
 
 /* ---------- Vignette Kontras Dinamis ---------- */
 #ambientGlow{position:absolute;inset:0;pointer-events:none;z-index:21;
@@ -52,29 +55,29 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ---------- Sistem Transisi Smooth Antar Scene ---------- */
 .scene{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;z-index:1;
-  transform:translate3d(0,0,0) scale(1.08);
-  filter:blur(6px);
-  transition:opacity .38s var(--trEase),transform .52s var(--trEase),filter .4s var(--trEase),visibility 0s linear .4s;
+  transform:translate3d(0,0,0) scale(1.06);
+  filter:blur(5px);
+  transition:opacity .38s var(--trEase),transform .5s var(--trEase),filter .4s var(--trEase),visibility 0s linear .4s;
   will-change:opacity,transform,filter;contain:layout style paint}
-.scene[data-in="zoomIn"]{transform:translate3d(0,0,0) scale(1.16);filter:blur(7px)}
-.scene[data-in="zoomOut"]{transform:translate3d(0,0,0) scale(.88);filter:blur(6px)}
-.scene[data-in="slideL"]{transform:translate3d(15%,0,0) scale(1.04);filter:blur(6px)}
-.scene[data-in="slideR"]{transform:translate3d(-15%,0,0) scale(1.04);filter:blur(6px)}
-.scene[data-in="slideU"]{transform:translate3d(0,13%,0) scale(1.04);filter:blur(6px)}
-.scene[data-in="spin"]{transform:translate3d(0,0,0) scale(1.14) rotate(-3deg);filter:blur(7px)}
+.scene[data-in="zoomIn"]{transform:translate3d(0,0,0) scale(1.14);filter:blur(6px)}
+.scene[data-in="zoomOut"]{transform:translate3d(0,0,0) scale(.9);filter:blur(5px)}
+.scene[data-in="slideL"]{transform:translate3d(13%,0,0) scale(1.03);filter:blur(5px)}
+.scene[data-in="slideR"]{transform:translate3d(-13%,0,0) scale(1.03);filter:blur(5px)}
+.scene[data-in="slideU"]{transform:translate3d(0,11%,0) scale(1.03);filter:blur(5px)}
+.scene[data-in="spin"]{transform:translate3d(0,0,0) scale(1.12) rotate(-3deg);filter:blur(6px)}
 
 .scene.exiting{opacity:0;visibility:visible;z-index:1;
-  transform:scale(.93) translate3d(-4%,0,0);
-  filter:blur(6px) brightness(.75);
+  transform:scale(.94) translate3d(-3%,0,0);
+  filter:blur(5px) brightness(.75);
   transition:opacity .34s ease-out,transform .42s var(--trEase),filter .34s ease-out,visibility 0s linear .38s}
 
-.scene[data-tr="cut"]{filter:blur(3px);transition:opacity .16s ease-out,transform .22s var(--trEase),filter .18s ease-out,visibility 0s linear .18s}
+.scene[data-tr="cut"]{filter:blur(2px);transition:opacity .16s ease-out,transform .22s var(--trEase),filter .18s ease-out,visibility 0s linear .18s}
 .scene.on{opacity:1;visibility:visible;z-index:2;transform:translate3d(0,0,0) scale(1) rotate(0deg);filter:blur(0) brightness(1);transition-delay:0s}
 
 .cam{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;will-change:transform}
 .sway{position:absolute;inset:0;will-change:transform}
 .scene.live .sway{animation:sway 5s ease-in-out infinite alternate}
-@keyframes sway{from{transform:translate3d(-.18rem,.08rem,0) rotate(-.2deg)}to{transform:translate3d(.18rem,-.1rem,0) rotate(.2deg)}}
+@keyframes sway{from{transform:translate3d(-.15rem,.06rem,0) rotate(-.18deg)}to{transform:translate3d(.15rem,-.08rem,0) rotate(.18deg)}}
 
 .round{border-radius:50%}
 .img{position:relative;overflow:hidden;background-color:#121212;background-image:linear-gradient(150deg,#2a2a2a 0%,#121212 58%,#050505 100%);background-size:cover;background-position:center;filter:grayscale(1) contrast(1.22);transform:translateZ(0)}
@@ -86,13 +89,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 @keyframes blink{50%{opacity:0}}
 .chev{display:inline-block;width:.5rem;height:.5rem;border-right:.15rem solid #a1a1aa;border-bottom:.15rem solid #a1a1aa;transform:rotate(45deg) translateY(-.2rem);margin-left:.55rem}
 
-/* S1 LOCKSCREEN — MONOCHROME I AM MUSIC */
+/* S1 LOCKSCREEN — ANGLE TERPUSAT PADA JAM & MUSIC CARD */
 #s1{background:#000}
 #s1 .ls-bg{position:absolute;inset:-4%;background-position:center 22%;filter:grayscale(1) contrast(1.26) brightness(.56);transform:translateZ(0) scale(1.04)}
 #s1 .ls-shade{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.85))}
-#s1 .cam{flex-direction:column;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 5.2rem) 1.5rem calc(env(safe-area-inset-bottom,0px) + 4.2rem)}
+#s1 .cam{flex-direction:column;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 5.2rem) 1.5rem calc(env(safe-area-inset-bottom,0px) + 4.2rem);transform-origin:50% 48%}
 #s1.live .cam{animation:s1c 1.05s cubic-bezier(.22,.6,.2,1) both}
-@keyframes s1c{from{transform:translateZ(0) scale(1.16)}to{transform:translateZ(0) scale(1.01)}}
+@keyframes s1c{from{transform:translateZ(0) scale(1.13)}to{transform:translateZ(0) scale(1)}}
 .ls-top{text-align:center;width:100%}
 .ls-lock{display:inline-block;width:.85rem;height:1.1rem;position:relative;margin-bottom:.4rem}
 .ls-lock::before{content:"";position:absolute;left:.18rem;top:0;width:.5rem;height:.48rem;border:.13rem solid rgba(255,255,255,.85);border-bottom:0;border-radius:.3rem .3rem 0 0}
@@ -117,15 +120,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ls-btn svg{width:1.15rem;height:1.15rem;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .ls-home{width:8rem;height:.28rem;border-radius:1rem;background:rgba(255,255,255,.8)}
 
-/* S2 GALERI 3 FOTO — BINGKAI 35MM CONTACT SHEET MONOKROM */
+/* S2 GALERI 3 FOTO — PANNING HALUS KE TENGAH "TRUE LOVE" */
 #s2{background:radial-gradient(90% 60% at 50% 45%,#1a1a1a 0%,#0a0a0a 60%,#000 100%)}
 #s2 .cam{display:block;transform-origin:50% 50%}
-#s2.live .cam{animation:s2c 1.0s cubic-bezier(.25,.8,.25,1) both}
+#s2.live .cam{animation:s2c 1.0s cubic-bezier(.22,.8,.25,1) both}
 @keyframes s2c{
-  0%{transform:translate3d(4rem,6rem,0) scale(1.24) rotate(1.3deg)}
-  26%{transform:translate3d(-4.2rem,5.8rem,0) scale(1.24) rotate(-1.3deg)}
-  54%{transform:translate3d(-.3rem,-6.8rem,0) scale(1.22) rotate(.9deg)}
-  80%,100%{transform:translate3d(0,0,0) scale(1.1) rotate(0deg)}
+  0%{transform:translate3d(1.8rem,3.2rem,0) scale(1.18) rotate(.9deg)}
+  45%{transform:translate3d(-1.4rem,-2.2rem,0) scale(1.14) rotate(-.6deg)}
+  100%{transform:translate3d(0,0,0) scale(1.02) rotate(0deg)}
 }
 .frm{position:absolute;left:calc(50% + var(--x));top:calc(50% + var(--y));width:var(--w);height:var(--h);background:#080808;padding:.45rem .45rem 1.35rem;border:1px solid rgba(255,255,255,.28);box-shadow:0 1.2rem 2rem rgba(0,0,0,.9);transform:rotate(var(--r,0deg));will-change:transform,opacity}
 .frm::after{content:attr(data-code);position:absolute;left:.55rem;bottom:.32rem;font:700 .52rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;color:rgba(255,255,255,.65)}
@@ -136,11 +138,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 .s2-lyric-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:.35rem;background:#000;border:1.5px solid #fff;padding:.9rem 1.65rem;box-shadow:0 1rem 2.4rem rgba(0,0,0,.95)}
 .s2-lyric-center .b{font-size:1.5rem;font-weight:900;color:#fff;letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
 .s2-lyric-center .sub{font:800 .58rem ui-monospace,Menlo,Consolas,monospace;color:#000;background:#fff;padding:.12rem .45rem;letter-spacing:.22em}
-#s2.live .s2-lyric-center{animation:lyricFocus .36s .56s cubic-bezier(.16,1,.3,1) both}
+#s2.live .s2-lyric-center{animation:lyricFocus .36s .42s cubic-bezier(.16,1,.3,1) both}
 @keyframes lyricFocus{from{opacity:0;filter:blur(4px);transform:translate(-50%,-50%) scale(.76)}to{opacity:1;filter:blur(0);transform:translate(-50%,-50%) scale(1)}}
 
-/* S3 IKON MUSIK — CHROME / PUTIH HITAM I AM MUSIC */
+/* S3 IKON MUSIK — ZOOM OUT DINAMIS KE "GIVE YOU MY KIDNEY" */
 #s3{background:radial-gradient(80% 60% at 50% 38%,#222222,#0c0c0c 62%,#000)}
+#s3 .cam{transform-origin:50% 45%}
+#s3.live .cam{animation:s3c 1.0s cubic-bezier(.16,1,.3,1) both}
+@keyframes s3c{from{transform:translate3d(0,-1rem,0) scale(1.16) rotate(2deg)}to{transform:translate3d(0,0,0) scale(1) rotate(0deg)}}
 .iconwrap{position:relative;margin-top:-6rem;will-change:transform}
 #s3.live .iconwrap{animation:iconIn .75s var(--ease) both,floaty 2s .75s ease-in-out infinite alternate}
 @keyframes iconIn{from{opacity:0;filter:blur(6px);transform:scale(.6) rotate(-25deg)}to{opacity:1;filter:blur(0);transform:translateZ(0)}}
@@ -152,8 +157,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 #s3.live .eq i{animation:eq .42s ease-in-out infinite alternate}
 .eq i:nth-child(2){animation-delay:-.2s!important}.eq i:nth-child(3){animation-delay:-.45s!important}.eq i:nth-child(4){animation-delay:-.1s!important}.eq i:nth-child(5){animation-delay:-.35s!important}
 @keyframes eq{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
-.capwrap{position:absolute;left:0;right:0;top:63%;text-align:center;transform:rotate(-12deg)}
-.capwrap div{display:inline-block;font-size:1.05rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#000;background:#fff;padding:.2rem .65rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.9)}
+.capwrap{position:absolute;left:0;right:0;top:62%;text-align:center;transform:rotate(-8deg)}
+.capwrap div{display:inline-block;font-size:1.02rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#000;background:#fff;padding:.24rem .7rem;box-shadow:0 .4rem 1.2rem rgba(0,0,0,.9)}
 .player{position:absolute;left:0;right:0;bottom:2.4rem;height:3.5rem;padding:0 1rem;background:rgba(10,10,10,.95);border-top:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:.9rem;will-change:transform}
 #s3.live .player{animation:slideUp .42s .05s var(--ease) both}
 @keyframes slideUp{from{transform:translate3d(0,100%,0)}to{transform:translateZ(0)}}
@@ -167,35 +172,41 @@ button{font:inherit;color:inherit;cursor:pointer}
 #s3.live .pg i{animation:pgr 1.1s linear both}
 @keyframes pgr{from{transform:scaleX(.18)}to{transform:scaleX(.5)}}
 
-/* S4 TEKS KINETIK — STENCIL PUTIH HITAM */
+/* S4 TEKS KINETIK — CAMERA SPIN MENGIKUTI LIRIK "MIND ON SPINNING" */
 #s4{background:radial-gradient(90% 70% at 70% 30%,#1c1c1c,#000 72%)}
-#s4.live .cam{animation:s4c 1.4s linear both}
-@keyframes s4c{from{transform:scale(1) rotate(-.4deg)}to{transform:scale(1.08) rotate(.3deg)}}
-#kin{display:flex;flex-direction:column;align-items:flex-start;padding:0 1.7rem;width:100%;max-width:25rem}
-#kin .ln{font-size:3.5rem;font-weight:900;line-height:.94;letter-spacing:-.045em;text-transform:uppercase;white-space:nowrap;margin-left:var(--ix,0rem);text-shadow:0 .2rem 1rem rgba(0,0,0,.9);will-change:transform,opacity}
+#s4 .cam{transform-origin:50% 50%}
+#s4.live .cam{animation:s4c 1.4s cubic-bezier(.22,.8,.24,1) both}
+@keyframes s4c{
+  0%{transform:scale(1.12) rotate(-3.5deg)}
+  55%{transform:scale(.98) rotate(2.2deg)}
+  100%{transform:scale(1.03) rotate(0deg)}
+}
+#kin{display:flex;flex-direction:column;align-items:flex-start;padding:0 1.6rem;width:100%;max-width:24rem}
+#kin .ln{font-size:3.05rem;font-weight:900;line-height:.96;letter-spacing:-.04em;text-transform:uppercase;white-space:nowrap;margin-left:var(--ix,0rem);text-shadow:0 .2rem 1rem rgba(0,0,0,.9);will-change:transform,opacity}
 #kin .ln span{display:inline-block}
-#s4.live #kin .ln{animation:kin .65s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.03s + var(--i)*.09s)}
+#s4.live #kin .ln{animation:kin .62s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.03s + var(--i)*.09s)}
 @keyframes kin{from{filter:blur(5px);transform:translate3d(var(--fx),0,0);opacity:0}to{filter:blur(0);transform:translateZ(0);opacity:1}}
 #kin .hl span{background:#fff;color:#000;padding:0 .38rem}
 
-/* S5 POTRET (PNG REMOVE BG — HIGH CONTRAST MONOCHROME) */
+/* S5 POTRET — FOKUS WAJAH & KAPSI LIRIK BERSIH */
 #s5{background:radial-gradient(85% 65% at 50% 42%,#262626 0%,#0a0a0a 60%,#000 100%)}
-#s5 .pic{position:absolute;inset:0;will-change:transform}
-#s5 .pic .img{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center 48%;filter:grayscale(1) contrast(1.38) brightness(.98) drop-shadow(0 .6rem 1.8rem rgba(255,255,255,.22))}
-#s5.live .pic{animation:s5c 1.1s linear both}
-@keyframes s5c{from{transform:translateZ(0) scale(1.02)}to{transform:translate3d(0,-1%,0) scale(1.14)}}
-#s5 .shade{position:absolute;inset:0;background:linear-gradient(transparent 52%,rgba(0,0,0,.78) 85%,#000 100%),linear-gradient(rgba(0,0,0,.5),transparent 26%)}
+#s5 .pic{position:absolute;inset:0;transform-origin:50% 36%;will-change:transform}
+#s5 .pic .img{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center 44%;filter:grayscale(1) contrast(1.38) brightness(.98) drop-shadow(0 .6rem 1.8rem rgba(255,255,255,.22))}
+#s5.live .pic{animation:s5c 1.1s ease-out both}
+@keyframes s5c{from{transform:translateZ(0) scale(1.0)}to{transform:translate3d(0,.6%,0) scale(1.11)}}
+#s5 .shade{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.84) 84%,#000 100%),linear-gradient(rgba(0,0,0,.5),transparent 26%)}
 #s5 .tag{position:absolute;left:1.4rem;top:4.8rem;font:800 .66rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.28em;color:#000;background:#fff;padding:.18rem .5rem}
-#cap{position:absolute;left:1.2rem;right:1.2rem;bottom:16%;text-align:center;font-size:2.05rem;font-weight:900;line-height:1.1;text-transform:uppercase;letter-spacing:-.02em;text-shadow:0 .2rem 1rem rgba(0,0,0,.95)}
+#cap{position:absolute;left:1.2rem;right:1.2rem;bottom:14%;text-align:center;font-size:1.95rem;font-weight:900;line-height:1.12;text-transform:uppercase;letter-spacing:-.02em;text-shadow:0 .2rem 1rem rgba(0,0,0,.95)}
 #cap .w{display:inline-block;margin:0 .16em;will-change:transform,opacity}
 #s5.live #cap .w{animation:pop .32s var(--ease) both;animation-delay:calc(.04s + var(--i)*.08s)}
 @keyframes pop{from{opacity:0;filter:blur(4px);transform:scale(.8) translate3d(0,.5rem,0)}to{opacity:1;filter:blur(0);transform:translateZ(0)}}
 
-/* S6 SELEKSI TEKS — BLOK PUTIH TEKS HITAM */
+/* S6 SELEKSI TEKS — SNAP ZOOM KE "SAME DAMN TIME" */
 #s6{background:#000}
-#s6 .zoomimg{position:absolute;inset:-10%;background-size:contain;background-repeat:no-repeat;background-position:center 45%;filter:grayscale(1) contrast(1.3) brightness(.38) blur(1.5px);transform:translateZ(0) scale(1.65);transform-origin:50% 36%}
-#s6.live .cam{animation:s6c 1s linear both}
-@keyframes s6c{from{transform:translateZ(0) scale(1)}to{transform:translateZ(0) scale(1.1)}}
+#s6 .zoomimg{position:absolute;inset:-10%;background-size:contain;background-repeat:no-repeat;background-position:center 42%;filter:grayscale(1) contrast(1.3) brightness(.38) blur(1.5px);transform:translateZ(0) scale(1.55);transform-origin:50% 35%}
+#s6 .cam{transform-origin:50% 50%}
+#s6.live .cam{animation:s6c 1s cubic-bezier(.16,1,.3,1) both}
+@keyframes s6c{from{transform:translateZ(0) scale(1.16)}to{transform:translateZ(0) scale(1)}}
 .seltxt{position:relative;display:flex;flex-direction:column;align-items:center;font-size:2.9rem;font-weight:900;line-height:1.2;letter-spacing:-.035em;text-shadow:0 .2rem 1rem rgba(0,0,0,.9)}
 .sel{position:relative;display:inline-block;padding:0 .18em;margin-top:.1rem}
 .sel>span{position:relative;z-index:1;transition:color .2s .2s}
@@ -209,58 +220,74 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hd.r{right:-.4rem;bottom:-1.45rem}.hd.r::after{bottom:100%}
 #s6.live .hd{animation:rv .26s .36s var(--ease) both}
 
-/* S7 TIPOGRAFI SWAG — I AM MUSIC POSTER */
+/* S7 TIPOGRAFI SWAG — TATA LETAK RAPI & CAMERA TRACKING */
 #s7{background:#000}
-#s7.live .cam{animation:s7c 1.2s ease-out both}
-@keyframes s7c{from{transform:translateZ(0) scale(1.18)}to{transform:translateZ(0) scale(1)}}
-.panel{position:relative;width:21rem;height:27rem;background:#080808;border:1.5px solid rgba(255,255,255,.35);overflow:hidden}
+#s7 .cam{transform-origin:50% 50%}
+#s7.live .cam{animation:s7c 1.3s cubic-bezier(.22,.8,.24,1) both}
+@keyframes s7c{
+  0%{transform:translate3d(.8rem,1.4rem,0) scale(1.16)}
+  55%{transform:translate3d(-.5rem,-.8rem,0) scale(1.06)}
+  100%{transform:translate3d(0,0,0) scale(1)}
+}
+.panel{position:relative;width:21.5rem;height:27.5rem;background:#080808;border:1.5px solid rgba(255,255,255,.35);overflow:hidden}
 .gw{position:absolute;font-weight:900;letter-spacing:-.045em;color:#8e8e93;line-height:1;white-space:nowrap}
-.gw.w1{left:1.3rem;top:1.6rem;font-size:3.5rem;color:#fff}.gw.w2{left:1.3rem;top:5.6rem;font-size:3.5rem}.gw.w3{left:1.3rem;top:10rem;font-size:2.9rem;color:#fff;text-decoration:underline}.gw.w4{right:1.2rem;top:1.6rem;font-size:3.1rem;writing-mode:vertical-rl;color:#fff}
+.gw.w1{left:1.3rem;top:1.6rem;font-size:3.2rem;color:#fff}
+.gw.w2{left:1.3rem;top:5.3rem;font-size:2.9rem;color:#d4d4d8}
+.gw.w3{left:1.3rem;top:9.1rem;font-size:3.1rem;color:#fff;text-decoration:underline}
+.gw.w4{right:1.1rem;top:2.2rem;font-size:2.65rem;writing-mode:vertical-rl;color:#fff;letter-spacing:-.02em}
 #s7.live .gw{animation:rv .42s var(--ease) both;animation-delay:calc(.05s + var(--i)*.08s)}
-.swag-stamp{position:absolute;left:1.3rem;bottom:2.2rem;font-size:2.6rem;font-weight:900;font-style:italic;letter-spacing:.06em;color:#000;background:#fff;padding:.15rem .75rem;transform:rotate(-5deg);box-shadow:.4rem .4rem 0 #333}
+.swag-stamp{position:absolute;left:1.3rem;bottom:2.1rem;font-size:2.5rem;font-weight:900;font-style:italic;letter-spacing:.06em;color:#000;background:#fff;padding:.15rem .75rem;transform:rotate(-5deg);box-shadow:.4rem .4rem 0 #333}
 #s7.live .swag-stamp{animation:swagPop .36s .55s cubic-bezier(.16,1,.3,1) both}
 @keyframes swagPop{from{opacity:0;filter:blur(4px);transform:scale(1.8) rotate(-12deg)}to{opacity:1;filter:blur(0);transform:rotate(-5deg)}}
-.star{position:absolute;left:11rem;top:11.2rem;font-size:1.8rem;color:#fff;animation:spin 3s linear infinite}
+.star{position:absolute;left:9.2rem;top:13.2rem;font-size:1.8rem;color:#fff;animation:spin 3s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* S8 HANDLE SOSIAL */
+/* S8 HANDLE SOSIAL — SETTLE PAS DI TENGAH */
 #s8{background:radial-gradient(70% 55% at 40% 50%,#1f1f1f,#000 75%)}
-#s8.live .cam{animation:s8c 1s ease-out both}
-@keyframes s8c{from{transform:translateZ(0) scale(1.22)}to{transform:translateZ(0) scale(1.03)}}
+#s8 .cam{transform-origin:50% 50%}
+#s8.live .cam{animation:s8c 1.1s ease-out both}
+@keyframes s8c{from{transform:translate3d(-.8rem,0,0) scale(1.15)}to{transform:translate3d(0,0,0) scale(1)}}
 .soc{display:flex;align-items:center;gap:1.1rem;padding:0 1.4rem}
 .appicon2{width:4.8rem;height:4.8rem;border-radius:1.25rem;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 .8rem 1.8rem rgba(255,255,255,.15)}
 .appicon2 svg{width:2.4rem;height:2.4rem;fill:#000}
 .soc-h{font-size:2rem;font-weight:900;letter-spacing:-.03em;white-space:nowrap;color:#fff}
-.soc-s{font-size:1.15rem;font-weight:600;color:#a1a1aa;margin-top:.2rem;white-space:nowrap}
+.soc-s{font-size:1.12rem;font-weight:600;color:#a1a1aa;margin-top:.2rem;white-space:nowrap}
 #s8.live .soc-h{animation:focus .7s var(--ease) both}
 @keyframes focus{from{opacity:0;filter:blur(4px);letter-spacing:.08em}to{opacity:1;filter:blur(0);letter-spacing:-.03em}}
 #s8.live .appicon2{animation:iconIn .68s var(--ease) both}
 #s8.live .soc-s{animation:rv .7s .18s ease both}
 
-/* S9 CATATAN — HIGH CONTRAST B&W */
+/* S9 CATATAN — PAN & ZOOM KE TENGAH AGAR KALIMAT KETIKAN TIDAK TERPOTONG */
 #s9{background:#000}
-#s9 .cam{align-items:flex-start;justify-content:center}
-#s9.live .cam{animation:s9c 3.7s cubic-bezier(.5,0,.2,1) both;transform-origin:8% 60%}
-@keyframes s9c{0%,35%{transform:translateZ(0) scale(1)}75%,100%{transform:translate3d(0,-1rem,0) scale(1.45)}}
-.notes{width:21rem;margin-top:8rem}
+#s9 .cam{align-items:flex-start;justify-content:center;transform-origin:48% 58%}
+#s9.live .cam{animation:s9c 3.7s cubic-bezier(.45,.05,.25,1) both}
+@keyframes s9c{
+  0%,32%{transform:translate3d(0,.8rem,0) scale(1.06)}
+  68%,100%{transform:translate3d(0,-1.4rem,0) scale(1.18)}
+}
+.notes{width:21.5rem;margin-top:8rem}
 .notes h3{font-size:1.5rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.9rem;color:#fff}
 .notes ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
 .notes li{position:relative;font-size:1.15rem;font-weight:600;padding-left:1.4rem}
 .notes li::before{content:"";position:absolute;left:.2rem;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:#fff}
 .notes li.l2{margin-left:1.5rem}.notes li.l2::before{background:none;border:.12rem solid #fff}
 #s9.live .notes li,#s9.live .notes h3{animation:rv .55s var(--ease) both;animation-delay:calc(.05s + var(--i)*.22s)}
-.typedline{margin-top:1.3rem;font-size:1.22rem;font-weight:800;min-height:1.6rem;white-space:nowrap}
+.typedline{margin-top:1.3rem;font-size:1.16rem;font-weight:800;min-height:1.6rem;white-space:nowrap}
 .typedline mark{background:#fff;color:#000;padding:.05rem .25rem}
 .caret{display:inline-block;width:.16rem;height:1.2rem;background:#fff;vertical-align:-.2rem;margin-left:.1rem;animation:blink .7s steps(1) infinite}
 .caret.blue{height:1.5rem}
 
-/* S10 UI DM IG (KUROO — MONOCHROME) */
+/* S10 UI DM IG — CAMERA MENGIKUTI NOTES ATAS LALU GESER KE PESAN KANAN BAWAH */
 #s10{background:radial-gradient(90% 70% at 20% 10%,#1f1f1f 0%,#0e0e0e 52%,#000 100%)}
+#s10 .cam{transform-origin:52% 42%}
 #s10.live .cam{animation:s10c 3.4s cubic-bezier(.45,.05,.25,1) both}
-@keyframes s10c{0%,28%{transform-origin:45% 24%;transform:translate3d(.5rem,0,0) scale(1.05)}55%,100%{transform-origin:34% 52%;transform:translate3d(1.5rem,-2rem,0) scale(1.46)}}
-.phone2wrap{margin-left:2rem}
+@keyframes s10c{
+  0%,28%{transform:translate3d(.6rem,1.4rem,0) scale(1.1)}
+  58%,100%{transform:translate3d(-1.4rem,-2.2rem,0) scale(1.24)}
+}
+.phone2wrap{margin-left:1.2rem}
 #s10.live .phone2wrap{animation:rv .65s var(--ease) both}
-.phone2{width:26rem;height:60rem;border-radius:4rem;background:#050505;border:.22rem solid rgba(255,255,255,.22);padding:3.4rem 1.3rem 0;transform:perspective(70rem) rotateY(-22deg) rotateX(12deg) rotateZ(-7deg);box-shadow:-1.4rem 2rem 3.4rem rgba(0,0,0,.85),inset 0 0 0 .1rem #1a1a1a}
+.phone2{width:25.5rem;height:60rem;border-radius:4rem;background:#050505;border:.22rem solid rgba(255,255,255,.22);padding:3.4rem 1.3rem 0;transform:perspective(75rem) rotateY(-18deg) rotateX(10deg) rotateZ(-5deg);box-shadow:-1.4rem 2rem 3.4rem rgba(0,0,0,.85),inset 0 0 0 .1rem #1a1a1a}
 .p2-top{display:flex;justify-content:space-between;align-items:center;font-size:1rem;font-weight:800;margin-bottom:.9rem}
 .p2-top .live-dot{font-size:.56rem;color:#000;background:#fff;padding:.12rem .35rem;letter-spacing:.08em}
 .p2-search{height:2.6rem;border-radius:1.3rem;background:#161616;margin-bottom:1.4rem;display:flex;align-items:center;padding-left:1rem}
@@ -285,9 +312,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* S11 HEADER CHAT */
 #s11{background:#000}
-#s11 .cam{align-items:flex-start}
-#s11.live .cam{animation:s11c .85s ease-out both;transform-origin:50% 22%}
-@keyframes s11c{from{transform:translateZ(0) scale(1.3)}to{transform:translateZ(0) scale(1.02)}}
+#s11 .cam{align-items:flex-start;transform-origin:50% 20%}
+#s11.live .cam{animation:s11c .6s ease-out both}
+@keyframes s11c{from{transform:translateZ(0) scale(1.22)}to{transform:translateZ(0) scale(1)}}
 .chat-top{width:100%;max-width:26rem;padding:calc(env(safe-area-inset-top,0px) + 2.8rem) 1.4rem 0}
 .status{display:flex;justify-content:space-between;align-items:center;font-size:1rem;font-weight:700;padding:0 .3rem}
 .status .ic{display:flex;gap:.35rem;align-items:center}
@@ -305,10 +332,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 #s11.live .who .img{animation:rv .55s .05s var(--ease) both}
 #s11.live .pillname{animation:rv .55s .15s var(--ease) both}
 
-/* S12 BUBBLE CHAT — MONOCHROME B&W */
+/* S12 BUBBLE CHAT — ZOOM TERUKUR AGAR BUBBLE KIRI & KANAN TERBACA PENUH */
 #s12{background:#000}
-#s12.live .cam{animation:s12c 3.0s cubic-bezier(.5,0,.25,1) both}
-@keyframes s12c{0%,10%{transform-origin:6% 46%;transform:translateZ(0) scale(2.05)}36%,62%{transform-origin:50% 50%;transform:translateZ(0) scale(1)}100%{transform-origin:94% 54%;transform:translateZ(0) scale(1.95)}}
+#s12 .cam{transform-origin:50% 50%}
+#s12.live .cam{animation:s12c 3.0s cubic-bezier(.45,.05,.25,1) both}
+@keyframes s12c{
+  0%,22%{transform:translate3d(1.6rem,.7rem,0) scale(1.24)}
+  42%,64%{transform:translate3d(0,0,0) scale(1.02)}
+  82%,100%{transform:translate3d(-1.6rem,-.7rem,0) scale(1.26)}
+}
 .chat{width:22rem;display:flex;flex-direction:column;gap:.9rem}
 .bub{position:relative;max-width:82%;padding:.6rem .95rem;border-radius:1.3rem;font-size:.98rem;line-height:1.25;font-weight:600}
 .bub.in{align-self:flex-start;background:#1f1f1f;color:#fff}
@@ -322,24 +354,24 @@ button{font:inherit;color:inherit;cursor:pointer}
 .read{align-self:flex-end;font-size:.55rem;color:#8e8e93;margin-top:-.4rem;opacity:0;transition:opacity .35s}
 .read.show{opacity:1}
 
-/* S13 KOLOM KETIK */
+/* S13 KOLOM KETIK — GLIDE HALUS TANPA TERPOTONG */
 #s13{background:#000}
-#s13 .cam{flex-direction:column}
+#s13 .cam{flex-direction:column;transform-origin:50% 50%}
 #s13.live .cam{animation:s13c 1.6s ease-out both}
-@keyframes s13c{from{transform:translate3d(1.5rem,0,0) scale(1.42)}to{transform:translateZ(0) scale(1.04)}}
+@keyframes s13c{from{transform:translate3d(.6rem,0,0) scale(1.16)}to{transform:translateZ(0) scale(1)}}
 .inbar{width:23rem;display:flex;align-items:center;gap:.7rem}
 .plus{width:3.1rem;height:3.1rem;border-radius:50%;background:#181818;display:grid;place-items:center;flex:none;position:relative}
 .plus::before,.plus::after{content:"";position:absolute;background:#fff;border-radius:.1rem}
 .plus::before{width:1.2rem;height:.16rem}.plus::after{width:.16rem;height:1.2rem}
-.pill{flex:1;height:3.3rem;border-radius:1.7rem;background:#121212;border:1px solid rgba(255,255,255,.22);padding:0 1.1rem;display:flex;align-items:center;font-size:1.15rem;font-weight:600}
+.pill{flex:1;height:3.3rem;border-radius:1.7rem;background:#121212;border:1px solid rgba(255,255,255,.22);padding:0 1.1rem;display:flex;align-items:center;font-size:1.1rem;font-weight:600}
 .mic{margin-left:auto;width:.7rem;height:1.2rem;border:.14rem solid #8e8e93;border-radius:1rem}
 .kbline{width:23rem;height:1px;margin-top:2.4rem;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent)}
 
-/* S14 MATA — SILVER / MONOCHROME */
+/* S14 MATA — FOKUS TENGAH LALU WHIP KE S15 */
 #s14{background:#000}
 .eyes{display:flex;gap:1.1rem;align-items:center;will-change:transform,opacity}
 #s14.live .eyes{animation:eyesIn .4s var(--ease) both,eyesOut .34s .95s cubic-bezier(.7,0,.9,.4) forwards}
-@keyframes eyesIn{from{opacity:0;filter:blur(5px);transform:scale(.5)}to{opacity:1;filter:blur(0);transform:translateZ(0)}}
+@keyframes eyesIn{from{opacity:0;filter:blur(5px);transform:scale(.65)}to{opacity:1;filter:blur(0);transform:scale(1.04)}}
 @keyframes eyesOut{to{filter:blur(6px);transform:translate3d(-130%,0,0) scaleX(1.2) skewX(8deg);opacity:.9}}
 .eye{position:relative;width:8rem;height:11rem;border-radius:50%;overflow:hidden;background:radial-gradient(ellipse at 50% 32%,#fff 0%,#e5e5e5 58%,#bdbdbd 100%)}
 .iris{position:absolute;left:50%;top:50%;width:4.7rem;height:4.7rem;margin:-2.35rem 0 0 -2.35rem;border-radius:50%;background:radial-gradient(circle at 38% 30%,#a3a3a3 0%,#404040 48%,#0a0a0a 100%);will-change:transform}
@@ -348,10 +380,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pup{position:absolute;left:50%;top:50%;width:2.1rem;height:2.1rem;margin:-1.05rem;border-radius:50%;background:#000}
 .gl{position:absolute;left:22%;top:18%;width:1rem;height:1rem;border-radius:50%;background:#fff;opacity:.95}
 
-/* S15 PANGGILAN (KUROO — MONOCHROME) */
+/* S15 PANGGILAN — PUSH-IN HALUS & SUBTITLE TERKUNCI DI TENGAH */
 #s15{background:radial-gradient(100% 70% at 55% 28%,#242424 0%,#101010 45%,#000 100%)}
+#s15 .cam{transform-origin:50% 45%}
 #s15.live .cam{animation:s15c 7.8s linear both}
-@keyframes s15c{from{transform:translate3d(.6rem,0,0) scale(1.03)}to{transform:translate3d(-1rem,0,0) scale(1.12)}}
+@keyframes s15c{from{transform:translate3d(.4rem,-.4rem,0) scale(1)}to{transform:translate3d(-.5rem,-.7rem,0) scale(1.09)}}
 .callrow{display:flex;align-items:center}
 #s15.live .phonew{animation:ring .42s 0s steps(1) 3 both}
 @keyframes ring{0%{transform:translate3d(-.12rem,0,0) rotate(-.4deg)}50%{transform:translate3d(.12rem,0,0) rotate(.4deg)}100%{transform:translateZ(0)}}
@@ -367,23 +400,19 @@ button{font:inherit;color:inherit;cursor:pointer}
 .endbtn{width:3.6rem;height:3.6rem;border-radius:50%;background:#fff;display:grid;place-items:center;margin-bottom:2rem}
 .endbtn svg{width:1.6rem;height:1.6rem;fill:#000;transform:rotate(135deg)}
 #wave{width:14.5rem;height:9rem;margin-left:-2rem;display:block}
-.sub15{position:absolute;left:0;right:0;bottom:6.2rem;padding:0 1.4rem;text-align:center;font:900 .95rem/1.25 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;text-transform:uppercase;letter-spacing:-.01em;color:#000;pointer-events:none}
-.sub15 b{display:inline-block;max-width:100%;background:#fff;padding:.2rem .6rem;box-shadow:.25rem .25rem 0 #333;animation:subIn .28s cubic-bezier(.16,1,.3,1) both;font-weight:900}
-@keyframes subIn{from{opacity:0;filter:blur(4px);transform:scale(1.4)}to{opacity:1;filter:blur(0);transform:none}}
-#s15 .dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;will-change:opacity}
+.sub15{position:absolute;left:0;right:0;bottom:5.4rem;z-index:6;padding:0 1.4rem;text-align:center;font:900 .98rem/1.25 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;text-transform:uppercase;letter-spacing:-.01em;color:#000;pointer-events:none}
+.sub15 b{display:inline-block;max-width:100%;background:#fff;padding:.24rem .68rem;box-shadow:.25rem .25rem 0 #333;animation:subIn .28s cubic-bezier(.16,1,.3,1) both;font-weight:900}
+@keyframes subIn{from{opacity:0;filter:blur(4px);transform:scale(1.32)}to{opacity:1;filter:blur(0);transform:none}}
+#s15 .dim{position:absolute;inset:0;z-index:8;background:#000;opacity:0;pointer-events:none;will-change:opacity}
 #s15.live .dim{animation:dim 7.8s linear both}
 @keyframes dim{0%,45%{opacity:0}100%{opacity:1}}
 
-/* FX GLOBAL & HUD (XEROX GRAIN & CAM REC) */
+/* FX GLOBAL & HUD (BERSIH TANPA GARIS PUTIH) */
 #fx{position:absolute;inset:0;pointer-events:none;z-index:20;overflow:hidden}
 #fx .vig{position:absolute;inset:0;background:radial-gradient(125% 95% at 50% 50%,transparent 54%,rgba(0,0,0,.84) 100%)}
-#fx .grain{position:absolute;inset:-50%;background-image:var(--noise);opacity:.1;will-change:transform;animation:grain .9s steps(6) infinite}
+#fx .grain{position:absolute;inset:-50%;background-image:var(--noise);opacity:.09;will-change:transform;animation:grain .9s steps(6) infinite}
 @keyframes grain{0%{transform:translate3d(0,0,0)}25%{transform:translate3d(-3%,2%,0)}50%{transform:translate3d(3%,-4%,0)}75%{transform:translate3d(-4%,-2%,0)}100%{transform:translate3d(0,0,0)}}
-#fx .scr{position:absolute;top:0;bottom:0;left:0;width:1px;background:rgba(255,255,255,.4);opacity:0;animation:scr 2.7s steps(1) infinite}
-@keyframes scr{0%{opacity:0}6%{opacity:.55;transform:translateX(18vw)}8%{opacity:0}31%{opacity:.4;transform:translateX(71vw)}33%{opacity:0}58%{opacity:.5;transform:translateX(42vw)}60%{opacity:0}100%{opacity:0}}
-#fx .flick{position:absolute;inset:0;background:#fff;mix-blend-mode:overlay;opacity:0;animation:flick 3.3s steps(1) infinite}
-@keyframes flick{0%{opacity:0}41%{opacity:.06}42%{opacity:0}77%{opacity:.09}78%{opacity:.03}79%{opacity:0}100%{opacity:0}}
-#fx .scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)}
+#fx::before{content:"I AM MUSIC";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg) scale(calc(1 + var(--bass)*.05));font:900 8rem/1 -apple-system,"SF Pro Display",Roboto,sans-serif;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06)}
 
 #vhsTop{position:absolute;left:1.2rem;right:1.2rem;top:calc(env(safe-area-inset-top,0px) + 2.8rem);z-index:29;display:flex;justify-content:space-between;align-items:center;pointer-events:none;font:700 .62rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.18em;color:rgba(255,255,255,.72)}
 .rec-badge{display:flex;align-items:center;gap:.45rem;color:#fff}
@@ -411,15 +440,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}100%{box-shadow:0 0 0 1.8rem rgba(255,255,255,0)}}
 #intro .tap{margin-top:1.1rem;font:600 .68rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.32em;color:#a1a1aa;animation:rvi 1.2s 1s both}
 
-/* EFEK TAMBAHAN 1-5 */
 #kin .ln{text-shadow:calc(var(--bass)*1rem) 0 0 rgba(255,255,255,.28),calc(var(--bass)*-1rem) 0 0 rgba(255,255,255,.12),0 .2rem 1rem rgba(0,0,0,.9)}
 #cap,.seltxt{text-shadow:calc(var(--bass)*.7rem) 0 0 rgba(255,255,255,.25),0 .2rem 1rem rgba(0,0,0,.95)}
 .img.has::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle,#000 34%,transparent 36%) 0 0/.34rem .34rem;mix-blend-mode:multiply;opacity:.38}
-#fx::before{content:"I AM MUSIC";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg) scale(calc(1 + var(--bass)*.05));font:900 8rem/1 -apple-system,"SF Pro Display",Roboto,sans-serif;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07)}
-#fx .strip{position:absolute;left:0;right:0;height:.9rem;background:#fff;mix-blend-mode:difference;opacity:0}
-#sweep{position:absolute;inset:0;z-index:25;pointer-events:none;opacity:0;mix-blend-mode:screen;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%)}
-#sweep.on{animation:sweepA .45s ease-out 1}
-@keyframes sweepA{0%{opacity:1;transform:translateX(-100%)}100%{opacity:0;transform:translateX(100%)}}
 </style>
 </head>
 <body>
@@ -464,13 +487,13 @@ button{font:inherit;color:inherit;cursor:pointer}
         <div class="frm" data-code="01A · 35MM" style="--x:-10.8rem;--y:-15.5rem;--w:10.5rem;--h:14.2rem;--r:-4deg;--d:.0s"><div class="mat"><div class="img" data-slot="gal1"></div></div></div>
         <div class="frm" data-code="02A · 35MM" style="--x:1.5rem;--y:-14.5rem;--w:9.8rem;--h:13.2rem;--r:3.5deg;--d:.08s"><div class="mat"><div class="img" data-slot="gal2"></div></div></div>
         <div class="frm" data-code="03A · 35MM" style="--x:-5.5rem;--y:5.2rem;--w:12.5rem;--h:11.6rem;--r:-2deg;--d:.15s"><div class="mat"><div class="img" data-slot="gal3"></div></div></div>
-        <div class="s2-lyric-center"><div class="b" data-bind="miniText">Rather Lie</div><div class="sub">I AM MUSIC</div></div>
+        <div class="s2-lyric-center"><div class="b" data-bind="miniText">True Love</div><div class="sub">I AM MUSIC</div></div>
       </div></section>
 
       <!-- S3 IKON MUSIK -->
       <section class="scene" id="s3" data-in="spin" aria-hidden="true"><div class="cam">
         <div class="iconwrap"><div class="appicon"><div class="eq"><i></i><i></i><i></i><i></i><i></i></div></div></div>
-        <div class="capwrap"><div class="rv" style="--d:.2s" data-bind="s3cap">Give my kidney</div></div>
+        <div class="capwrap"><div class="rv" style="--d:.2s" data-bind="s3cap">Give you my kidney</div></div>
         <div class="player">
           <div class="ctl"><span class="sk" style="transform:scaleX(-1)"></span><span class="play"></span><span class="sk"></span></div>
           <div class="tt"><span data-bind="trackTitle">RATHER LIE (with The Weeknd)</span><small data-bind="trackArtist">Playboi Carti, The Weeknd</small></div>
@@ -567,33 +590,37 @@ button{font:inherit;color:inherit;cursor:pointer}
       </div></div></section>
 
       <!-- S15 PANGGILAN (KUROO) -->
-      <section class="scene" id="s15" data-in="slideR" aria-hidden="true"><div class="cam">
-        <div class="callrow">
-          <div class="phonew"><div class="phone"><div class="screen">
-            <i class="isl"></i><div class="c-lbl">mobile</div>
-            <div class="c-name" data-bind="caller">kuroo</div>
-            <div class="c-time" id="cTime">00:24</div>
-            <div class="c-grid">
-              <span class="cb"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg></span>
-              <span class="cb"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 11 5-3v8l-5-3"/></svg></span>
-              <span class="cb"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
-              <span class="cb"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
-              <span class="cb"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14" transform="rotate(45 12 12)"/></svg></span>
-              <span class="cb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="6" r="1"/><circle cx="12" cy="18" r="1"/></svg></span>
-            </div>
-            <span class="endbtn"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1z"/></svg></span>
-          </div></div></div>
-          <canvas id="wave"></canvas>
+      <section class="scene" id="s15" data-in="slideR" aria-hidden="true">
+        <div class="cam">
+          <div class="callrow">
+            <div class="phonew"><div class="phone"><div class="screen">
+              <i class="isl"></i><div class="c-lbl">mobile</div>
+              <div class="c-name" data-bind="caller">kuroo</div>
+              <div class="c-time" id="cTime">00:24</div>
+              <div class="c-grid">
+                <span class="cb"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg></span>
+                <span class="cb"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 11 5-3v8l-5-3"/></svg></span>
+                <span class="cb"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+                <span class="cb"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+                <span class="cb"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14" transform="rotate(45 12 12)"/></svg></span>
+                <span class="cb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="6" r="1"/><circle cx="12" cy="18" r="1"/></svg></span>
+              </div>
+              <span class="endbtn"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1z"/></svg></span>
+            </div></div></div>
+            <canvas id="wave"></canvas>
+          </div>
         </div>
         <div class="sub15" id="sub15"></div>
         <div class="dim"></div>
-      </div></section>
+      </section>
     </div>
   </div>
 
+  <!-- Uang Dolar Kertas Jatuh dari Atas -->
+  <canvas id="moneyCanvas" aria-hidden="true"></canvas>
+
   <div id="trFlash" aria-hidden="true"></div>
-  <div id="sweep" aria-hidden="true"></div>
-  <div id="fx" aria-hidden="true"><div class="vig"></div><div class="grain"></div><div class="scan"></div><div class="strip" id="strip"></div><div class="scr"></div><div class="flick"></div></div>
+  <div id="fx" aria-hidden="true"><div class="vig"></div><div class="grain"></div></div>
   <div id="vhsTop" aria-hidden="true"><span class="rec-badge"><i></i>REC</span><span>I AM MUSIC · CAM 00</span></div>
   <div id="vhsBot" aria-hidden="true"><span>PLAY ▶</span><span>NOV 19 2026</span></div>
   <div id="hud"><span id="tc">00:00 / 00:30</span><button id="replay" type="button" aria-label="Putar ulang">↻</button></div>
@@ -639,10 +666,8 @@ var CONFIG={
   dmLyrics:{note1:"All of that",note2:"ass on me",note3:"bite that",note4:"XO",msg1:"Give you my card",msg2:"tell you,",msg3:"\u201cSwipe that\u201d"},
   chat:{them:"It wasn't you, it's me",me:"It ain't me, it's you"},
   input:"I know it's hard to see",
-  /* Baris penutup (scene panggilan, 7.8 dtk). [detik_sejak_scene_mulai, teks] - ubah angka detik kalau kurang pas dengan lagu */
   outro:[[0,"That I'd rather lie than to lose you"],[2.2,"I'd rather"],[3.4,"I'd rather"],[4.6,"I'd rather"],[5.8,"I'd rather lie than to..."]]
 };
-/* Durasi asli dikembalikan (total 30.0 detik) agar presisi dengan lirik & musik */
 var DUR=[1.0,1.0,1.0,1.4,1.1,1.0,1.3,1.1,3.7,3.4,0.6,3.0,1.6,1.0,7.8];
 var $=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))},clamp=function(v,a,b){return v<a?a:v>b?b:v};
 var stage=$("#stage"),world=$("#world"),trFlash=$("#trFlash"),intro=$("#intro"),bgm=$("#bgm"),scenes=$$(".scene"),N=scenes.length,starts=[],TOTAL=0,i;
@@ -675,6 +700,140 @@ function applySlotImage(slotName,candidates){
 }
 Object.keys(CONFIG.images).forEach(function(k){applySlotImage(k,CONFIG.images[k]);});
 
+/* ---------- GENERATOR UANG KERTAS $100 REALISTIS (MONOCHROME BANKNOTE) ---------- */
+var moneyCanvas=$("#moneyCanvas"),mctx=moneyCanvas.getContext("2d"),bills=[],mW=0,mH=0,mDpr=1,billFront=null,billBack=null;
+function buildBanknoteSprites(){
+  var bw=240,bh=104;
+  /* Sisi Depan Uang $100 */
+  var f=document.createElement("canvas");f.width=bw;f.height=bh;
+  var c=f.getContext("2d");
+  c.fillStyle="#ededed";c.fillRect(0,0,bw,bh);
+  /* Pola arsiran pengaman halus */
+  c.strokeStyle="rgba(0,0,0,0.07)";c.lineWidth=1;
+  for(var gx=6;gx<bw;gx+=6){c.beginPath();c.moveTo(gx,4);c.lineTo(gx,bh-4);c.stroke();}
+  for(var gy=6;gy<bh;gy+=6){c.beginPath();c.moveTo(4,gy);c.lineTo(bw-4,gy);c.stroke();}
+  /* Bingkai luar & dalam uang kertas */
+  c.strokeStyle="#111111";c.lineWidth=3.5;c.strokeRect(5,5,bw-10,bh-10);
+  c.lineWidth=1.2;c.strokeRect(10,10,bw-20,bh-20);
+  c.setLineDash([2,2]);c.strokeRect(13,13,bw-26,bh-26);c.setLineDash([]);
+  /* Oval potret tengah */
+  c.fillStyle="#181818";c.beginPath();c.ellipse(bw/2,bh/2+1,31,37,0,0,Math.PI*2);c.fill();
+  c.strokeStyle="#ffffff";c.lineWidth=1.5;c.beginPath();c.ellipse(bw/2,bh/2+1,28,34,0,0,Math.PI*2);c.stroke();
+  /* Siluet potret Benjamin Franklin */
+  c.fillStyle="#e5e5e5";
+  c.beginPath();c.arc(bw/2,bh/2-8,11,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(bw/2,bh/2+19,19,14,0,Math.PI,Math.PI*2);c.fill();
+  c.fillStyle="#181818";
+  c.beginPath();c.arc(bw/2-11,bh/2-6,5,0,Math.PI*2);c.arc(bw/2+11,bh/2-6,5,0,Math.PI*2);c.fill();
+  c.beginPath();c.moveTo(bw/2-5,bh/2+6);c.lineTo(bw/2,bh/2+16);c.lineTo(bw/2+5,bh/2+6);c.fill();
+  /* Stempel Federal Reserve & Treasury kiri-kanan */
+  c.strokeStyle="#111";c.lineWidth=1.6;
+  c.beginPath();c.arc(54,bh/2+2,13,0,Math.PI*2);c.stroke();
+  c.beginPath();c.arc(bw-54,bh/2+2,13,0,Math.PI*2);c.stroke();
+  c.fillStyle="#111";c.font="900 9px Georgia,serif";c.textAlign="center";c.textBaseline="middle";
+  c.fillText("B",54,bh/2+2);c.fillText("$",bw-54,bh/2+2);
+  /* Angka 100 di keempat sudut */
+  c.fillStyle="#ededed";c.fillRect(12,12,34,18);c.fillRect(bw-46,12,34,18);
+  c.fillRect(12,bh-30,34,18);c.fillRect(bw-46,bh-30,34,18);
+  c.fillStyle="#0a0a0a";c.font="900 14px Georgia,serif";
+  c.fillText("100",29,22);c.fillText("100",bw-29,22);
+  c.fillText("100",29,bh-20);c.fillText("100",bw-29,bh-20);
+  /* Tulisan resmi uang dolar */
+  c.font="800 6.5px 'Courier New',monospace";
+  c.fillText("FEDERAL RESERVE NOTE",bw/2,16);
+  c.font="700 5.5px 'Courier New',monospace";
+  c.fillText("B 00192026 A",56,28);c.fillText("B 00192026 A",bw-56,bh-27);
+  c.fillStyle="#0a0a0a";c.fillRect(62,bh-18,bw-124,9);
+  c.fillStyle="#ffffff";c.font="800 6px 'Courier New',monospace";
+  c.fillText("ONE HUNDRED DOLLARS",bw/2,bh-13.5);
+  billFront=f;
+
+  /* Sisi Belakang Uang $100 (terlihat saat lembar berputar di udara) */
+  var b=document.createElement("canvas");b.width=bw;b.height=bh;
+  var bc=b.getContext("2d");
+  bc.fillStyle="#cfcfcf";bc.fillRect(0,0,bw,bh);
+  bc.strokeStyle="#111111";bc.lineWidth=3.5;bc.strokeRect(5,5,bw-10,bh-10);
+  bc.lineWidth=1.2;bc.strokeRect(10,10,bw-20,bh-20);
+  bc.fillStyle="#181818";bc.fillRect(46,24,bw-92,bh-48);
+  bc.strokeStyle="#e5e5e5";bc.lineWidth=1.2;bc.strokeRect(50,28,bw-100,bh-56);
+  /* Siluet gedung Independence Hall */
+  bc.fillStyle="#e5e5e5";
+  bc.fillRect(bw/2-34,bh/2-2,68,18);
+  bc.fillRect(bw/2-8,bh/2-16,16,14);
+  bc.beginPath();bc.moveTo(bw/2-11,bh/2-16);bc.lineTo(bw/2,bh/2-24);bc.lineTo(bw/2+11,bh/2-16);bc.fill();
+  bc.fillStyle="#111";bc.font="900 15px Georgia,serif";bc.textAlign="center";bc.textBaseline="middle";
+  bc.fillText("100",28,23);bc.fillText("100",bw-28,23);
+  bc.fillText("100",28,bh-21);bc.fillText("100",bw-28,bh-21);
+  bc.font="800 6.2px 'Courier New',monospace";
+  bc.fillText("THE UNITED STATES OF AMERICA",bw/2,16);
+  bc.fillText("ONE HUNDRED DOLLARS",bw/2,bh-15);
+  billBack=b;
+}
+buildBanknoteSprites();
+
+function initMoney(){
+  mDpr=Math.min(window.devicePixelRatio||1,2);
+  mW=moneyCanvas.offsetWidth||window.innerWidth;
+  mH=moneyCanvas.offsetHeight||window.innerHeight;
+  moneyCanvas.width=Math.round(mW*mDpr);
+  moneyCanvas.height=Math.round(mH*mDpr);
+  bills=[];
+  var count=18;
+  for(var k=0;k<count;k++){
+    bills.push(spawnBill(true));
+  }
+}
+function spawnBill(randomY){
+  var depth=0.55+Math.random()*0.65;
+  return{
+    x:Math.random()*mW,
+    y:randomY?(Math.random()*(mH+120)-60):(-40-Math.random()*140),
+    vy:(55+Math.random()*65)*depth,
+    swayAmp:(18+Math.random()*28)*depth,
+    swayFreq:1.4+Math.random()*1.6,
+    phase:Math.random()*Math.PI*2,
+    rot:(Math.random()-0.5)*1.2,
+    vRot:(Math.random()-0.5)*1.8,
+    flip:Math.random()*Math.PI*2,
+    vFlip:(2.2+Math.random()*2.8)*(Math.random()<.5?1:-1),
+    scale:depth,
+    alpha:0.45+depth*0.42
+  };
+}
+function updateMoney(dt,bass){
+  if(!mW||!mH)return;
+  mctx.setTransform(mDpr,0,0,mDpr,0,0);
+  mctx.clearRect(0,0,mW,mH);
+  var speedBoost=1+bass*0.55;
+  var bw=68,bh=30;
+  for(var k=0;k<bills.length;k++){
+    var b=bills[k];
+    b.y+=b.vy*speedBoost*dt;
+    b.phase+=b.swayFreq*dt;
+    b.rot+=b.vRot*dt;
+    b.flip+=b.vFlip*dt;
+    if(b.y>mH+60){
+      bills[k]=spawnBill(false);
+      continue;
+    }
+    var drawX=b.x+Math.sin(b.phase)*b.swayAmp;
+    var flipCos=Math.cos(b.flip);
+    var scaleY=Math.max(0.14,Math.abs(flipCos));
+    var sprite=flipCos>=0?billFront:billBack;
+    mctx.save();
+    mctx.translate(drawX,b.y);
+    mctx.rotate(b.rot+Math.sin(b.phase)*0.25);
+    mctx.scale(b.scale,b.scale*scaleY);
+    mctx.globalAlpha=b.alpha;
+    mctx.shadowColor="rgba(0,0,0,0.65)";
+    mctx.shadowBlur=8;
+    mctx.shadowOffsetY=4;
+    mctx.drawImage(sprite,-bw/2,-bh/2,bw,bh);
+    mctx.restore();
+  }
+}
+initMoney();
+
 var actx=null,analyser=null,freqData=null,audioConnected=false,bassLevel=0;
 function initAudioAnalyser(){
   if(audioConnected||!CONFIG.audioSrc)return;
@@ -685,7 +844,6 @@ function initAudioAnalyser(){
     freqData=new Uint8Array(analyser.frequencyBinCount);audioConnected=true;
   }catch(e){audioConnected=false;}
 }
-var strip=$("#strip");
 var spec=$("#spec"),sctx=spec.getContext("2d");
 function drawSpec(t){
   var W=spec.width,H=spec.height,n=16,bw=4,gap=4,x0=(W-(n*(bw+gap)-gap))/2,live=audioConnected&&analyser&&!bgm.paused,k,v,h;
@@ -702,7 +860,6 @@ function updateBass(t){
     analyser.getByteFrequencyData(freqData);b=clamp(((freqData[0]+freqData[1]+freqData[2]+freqData[3])/(4*255)-0.38)*1.7,0,1);
   }else{b=Math.pow(1-((t*2.1)%1),4)*0.55;}
   bassLevel=bassLevel*0.62+b*0.38;document.documentElement.style.setProperty("--bass",bassLevel.toFixed(3));drawSpec(t);
-  if(bassLevel>.5&&!strip._on){strip._on=1;strip.style.top=(Math.random()*92)+"%";strip.style.opacity=.9;setTimeout(function(){strip.style.opacity=0;strip._on=0;},70);}
 }
 
 if(CONFIG.audioSrc)bgm.src=CONFIG.audioSrc;
@@ -715,7 +872,7 @@ scenes.forEach(function(s){var cam=s.querySelector(".cam"),sw=document.createEle
 $$("[data-bind]").forEach(function(el){var k=el.getAttribute("data-bind");if(k==="handle")el.textContent=CONFIG.handle;else if(k==="caller")el.textContent=CONFIG.caller;else if(CONFIG[k]!==undefined)el.textContent=CONFIG[k];});
 $("#introTitle").innerHTML="";CONFIG.title.forEach(function(w,k){if(k)$("#introTitle").appendChild(document.createElement("br"));$("#introTitle").appendChild(document.createTextNode(w));});
 
-CONFIG.kinetic.forEach(function(l,k){var d=document.createElement("div");d.className="ln"+(l.hl?" hl":"");d.style.setProperty("--i",k);d.style.setProperty("--fx",k%2?"120%":"-120%");d.style.setProperty("--ix",(k%2?1.2:0)+"rem");var sp=document.createElement("span");sp.textContent=l.t;d.appendChild(sp);$("#kin").appendChild(d);});
+CONFIG.kinetic.forEach(function(l,k){var d=document.createElement("div");d.className="ln"+(l.hl?" hl":"");d.style.setProperty("--i",k);d.style.setProperty("--fx",k%2?"120%":"-120%");d.style.setProperty("--ix",(k%2?1.0:0)+"rem");var sp=document.createElement("span");sp.textContent=l.t;d.appendChild(sp);$("#kin").appendChild(d);});
 CONFIG.caption.split(" ").forEach(function(w,k){var s=document.createElement("span");s.className="w";s.style.setProperty("--i",k);s.textContent=w;$("#cap").appendChild(s);});
 $("#selA").textContent=CONFIG.selection[0];$("#selB").textContent=CONFIG.selection[1];
 CONFIG.glitchWords.slice(0,4).forEach(function(w,k){var d=document.createElement("div");d.className="gw w"+(k+1);d.style.setProperty("--i",k);d.textContent=w;$("#panel").appendChild(d);});
@@ -734,7 +891,7 @@ function drawWave(lt){
   wctx.globalAlpha=.3*appear;wctx.fillRect(0,mid-dpr*.5,W*appear,Math.max(1,dpr));wctx.globalAlpha=1;var boost=1+bassLevel*.6;
   for(var k=0;k<n;k++){var x=k/n,env=Math.exp(-x*4),a=env*(.16+1.5*hash(Math.floor(k*.9-lt*11))*hash(k*3.1+Math.floor(lt*13)))*boost;if(k===0)a=1;else if(k<3)a=Math.max(a,.5);a=Math.min(1,a)*appear*(.9+.1*Math.sin(lt*5+k*.3));var h=Math.max(dpr*1.2,a*H*.94);wctx.fillRect(k*step,mid-h/2,bw,h);}
 }
-window.addEventListener("resize",function(){wgrad=null;if(cur===N-1)fitWave();});
+window.addEventListener("resize",function(){wgrad=null;initMoney();if(cur===N-1)fitWave();});
 
 var hooks=[],nPlain=$("#nPlain"),nMark=$("#nMark"),typedFull=CONFIG.notes.typed,hlFrom=(CONFIG.notes.hl&&typedFull.indexOf(CONFIG.notes.hl)>-1)?typedFull.indexOf(CONFIG.notes.hl):typedFull.lastIndexOf(" ")+1;
 hooks[8]={tick:function(lt){var n=Math.floor(clamp((lt-1.6)/1.7,0,1)*typedFull.length);if(hooks[8]._n!==n){hooks[8]._n=n;nPlain.textContent=typedFull.slice(0,Math.min(n,hlFrom));nMark.textContent=n>hlFrom?typedFull.slice(hlFrom,n):"";}},reset:function(){hooks[8]._n=-1;nPlain.textContent="";nMark.textContent="";}};
@@ -752,11 +909,10 @@ var cTime=$("#cTime");
 var sub15=$("#sub15");
 hooks[14]={enter:function(){wgrad=null;fitWave();},tick:function(lt){drawWave(lt);var o=CONFIG.outro,tx="",j;for(j=0;j<o.length;j++)if(lt>=o[j][0])tx=o[j][1];if(sub15._s!==tx){sub15._s=tx;sub15.textContent="";if(tx){var bb=document.createElement("b");bb.textContent=tx;sub15.appendChild(bb);}}var q=Math.floor(lt)+24,s="00:"+q;if(cTime._s!==s){cTime._s=s;cTime.textContent=s;}},reset:function(){sub15._s=null;sub15.textContent="";cTime._s=null;cTime.textContent="00:24";wctx.clearRect(0,0,wave.width,wave.height);}};
 
-var running=false,paused=false,autoPaused=false,started=false,cur=-1,t0=0,tPause=0,raf=0,restartTimer=0,leaveAt={},prog=$("#prog i"),tc=$("#tc"),lastSec=-1,totalStr=fmtTime(TOTAL);
+var running=false,paused=false,autoPaused=false,started=false,cur=-1,t0=0,tPause=0,lastFrameNow=0,raf=0,restartTimer=0,leaveAt={},prog=$("#prog i"),tc=$("#tc"),lastSec=-1,totalStr=fmtTime(TOTAL);
 tc.textContent="00:00 / "+totalStr;
 
 function transitionPulse(strong){
-  var sw=$("#sweep");sw.classList.remove("on");void sw.offsetWidth;sw.classList.add("on");
   trFlash.classList.remove("on");void trFlash.offsetWidth;trFlash.classList.add("on");
   world.classList.remove("beat","mblur","invertFlash");void world.offsetWidth;
   world.classList.add("beat","mblur");
@@ -781,8 +937,9 @@ function reset(){
   hooks.forEach(function(h){if(h&&h.reset)h.reset();});
   void stage.offsetWidth;
 }
-function update(now,t){
+function update(now,t,dt){
   updateBass(t);
+  updateMoney(dt,bassLevel);
   if(t>=TOTAL){finish();return;}
   var idx=0,k;for(k=0;k<N;k++)if(t>=starts[k])idx=k;
   if(idx!==cur){if(cur>=0)leave(cur,t);enter(idx);cur=idx;}
@@ -792,14 +949,17 @@ function update(now,t){
   var sec=Math.floor(t);if(sec!==lastSec){lastSec=sec;tc.textContent=fmtTime(sec)+" / "+totalStr;}
 }
 function frame(now){
-  if(!running)return;var nowT=(now-t0)/1000;
+  if(!running)return;
+  var dt=lastFrameNow?Math.min(0.05,(now-lastFrameNow)/1000):0.016;
+  lastFrameNow=now;
+  var nowT=(now-t0)/1000;
   if(CONFIG.audioSrc&&!bgm.paused&&bgm.readyState>=2&&bgm.currentTime>0){var audioT=bgm.currentTime-(CONFIG.audioStartAt||0);if(Math.abs(audioT-nowT)>.15){nowT=audioT;t0=now-nowT*1000;}}
-  update(now,nowT);raf=requestAnimationFrame(frame);
+  update(now,nowT,dt);raf=requestAnimationFrame(frame);
 }
 function finish(){running=false;cancelAnimationFrame(raf);pauseAudio();prog.style.transform="scaleX(1)";tc.textContent=totalStr+" / "+totalStr;if(cur>=0)leave(cur,TOTAL);if(CONFIG.loop)restartTimer=setTimeout(function(){start(0);},900);}
-function start(off){clearTimeout(restartTimer);cancelAnimationFrame(raf);reset();started=true;paused=false;autoPaused=false;stage.classList.remove("paused");running=true;t0=performance.now()-(off||0)*1000;playAudio(off||0);raf=requestAnimationFrame(frame);}
+function start(off){clearTimeout(restartTimer);cancelAnimationFrame(raf);reset();started=true;paused=false;autoPaused=false;stage.classList.remove("paused");running=true;lastFrameNow=performance.now();t0=lastFrameNow-(off||0)*1000;playAudio(off||0);raf=requestAnimationFrame(frame);}
 function pause(){if(!running)return;running=false;paused=true;tPause=performance.now();cancelAnimationFrame(raf);pauseAudio();stage.classList.add("paused");}
-function resume(){if(!paused)return;t0+=performance.now()-tPause;paused=false;running=true;resumeAudio();stage.classList.remove("paused");raf=requestAnimationFrame(frame);}
+function resume(){if(!paused)return;var now=performance.now();t0+=now-tPause;lastFrameNow=now;paused=false;running=true;resumeAudio();stage.classList.remove("paused");raf=requestAnimationFrame(frame);}
 
 intro.addEventListener("click",function(e){e.stopPropagation();if(started)return;intro.classList.add("hide");var off=0,q=parseFloat(qs.get("t"));if(!isNaN(q))for(var k=0;k<N;k++)if(q>=starts[k])off=starts[k];start(off);});
 stage.addEventListener("click",function(e){if(!started||e.target.closest("#replay")||e.target.closest("#intro"))return;if(paused){autoPaused=false;resume();}else if(running)pause();});
