@@ -41,7 +41,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 #fxCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:18}
 
 /* ---------- Film Letterbox Sinematik ---------- */
-.letterbox{position:absolute;left:0;right:0;height:2.4rem;background:#000;z-index:26;pointer-events:none;transition:transform .6s var(--ease)}
+.letterbox{position:absolute;left:0;right:0;height:2.4rem;background:#000;z-index:26;pointer-events:none}
 .letterbox.top{top:0;border-bottom:1px solid rgba(255,255,255,.06)}
 .letterbox.bot{bottom:0;border-top:1px solid rgba(255,255,255,.06)}
 
@@ -188,7 +188,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hd.r{right:-.4rem;bottom:-1.45rem}.hd.r::after{bottom:100%}
 #s6.live .hd{animation:rv .28s .38s var(--ease) both}
 
-/* ============ S7 — KATA GLITCH + CRT DISTORTION ============ */
+/* ============ S7 — KATA GLITCH + AD-LIB SWAG ============ */
 #s7{background:#040405}
 #s7.live .cam{animation:s7c 1.2s ease-out both}
 @keyframes s7c{from{transform:scale(1.26)}to{transform:scale(1)}}
@@ -213,6 +213,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .gw.w4{right:1.2rem;top:1.6rem;font-size:3.1rem;writing-mode:vertical-rl;letter-spacing:.02em;color:#fff}
 #s7.live .gw{animation:flick .45s steps(1) both;animation-delay:calc(.05s + var(--i)*.09s)}
 @keyframes flick{0%{opacity:0}30%{opacity:1}50%{opacity:.2}100%{opacity:1}}
+.swag-stamp{position:absolute;left:1.3rem;bottom:2.2rem;font-size:2.6rem;font-weight:900;font-style:italic;letter-spacing:.06em;color:#fff;background:var(--red);padding:.15rem .7rem;transform:rotate(-5deg);box-shadow:.4rem .4rem 0 #000}
+#s7.live .swag-stamp{animation:swagPop .35s .68s cubic-bezier(.16,1,.3,1) both}
+@keyframes swagPop{from{opacity:0;transform:scale(2.1) rotate(-14deg)}to{opacity:1;transform:rotate(-5deg)}}
 .star{position:absolute;left:11rem;top:11.2rem;font-size:1.8rem;color:#e50914;animation:spin 2s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .band{position:absolute;left:0;right:0;height:3.2rem;background:linear-gradient(transparent,rgba(255,255,255,.08),transparent);top:-3.2rem}
@@ -252,12 +255,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .caret{display:inline-block;width:.16rem;height:1.2rem;background:var(--red);vertical-align:-.2rem;margin-left:.1rem;animation:blink .7s steps(1) infinite}
 .caret.blue{background:var(--red);height:1.5rem}
 
-/* ============ S10 — UI DM IG (LIRIK LAGU SAJA, TANPA SEEN) ============ */
+/* ============ S10 — UI DM IG (LIRIK HIDUP & ZOOM KE CHAT SESUAI LIRIK) ============ */
 #s10{background:radial-gradient(90% 70% at 20% 10%,#380b11 0%,#1a1a1d 50%,#09090b 100%)}
-#s10.live .cam{animation:s10c 3.4s linear both}
-@keyframes s10c{from{transform:scale(1.06) translate3d(1rem,0,0)}to{transform:scale(1.0) translate3d(-1rem,0,0)}}
+#s10.live .cam{animation:s10c 3.4s cubic-bezier(.45,.05,.25,1) both}
+@keyframes s10c{
+  0%,32%{transform-origin:45% 24%;transform:scale(1.06) translate3d(.6rem,0,0)}
+  58%,100%{transform-origin:32% 52%;transform:scale(1.52) translate3d(1.6rem,-2.2rem,0)}
+}
 .phone2wrap{margin-left:2rem}
-#s10.live .phone2wrap{animation:rv .9s var(--ease) both}
+#s10.live .phone2wrap{animation:rv .7s var(--ease) both}
 .phone2{width:26rem;height:60rem;border-radius:4rem;background:#08080a;border:.22rem solid #4a181e;padding:3.4rem 1.3rem 0;
   transform:perspective(70rem) rotateY(-22deg) rotateX(12deg) rotateZ(-7deg);box-shadow:-1.4rem 2rem 3.4rem rgba(0,0,0,.8),inset 0 0 0 .1rem #1a1a1d}
 .p2-top{display:flex;justify-content:space-between;align-items:center;font-size:1rem;font-weight:800;margin-bottom:.9rem}
@@ -265,20 +271,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .p2-search{height:2.6rem;border-radius:1.3rem;background:#1b1b1e;margin-bottom:1.4rem;display:flex;align-items:center;padding-left:1rem}
 .mag{width:1.05rem;height:1.05rem;border:.16rem solid #77777d;border-radius:50%;position:relative}
 .mag::after{content:"";position:absolute;width:.16rem;height:.48rem;background:#77777d;right:-.25rem;bottom:-.35rem;transform:rotate(-45deg)}
-.p2-row{display:flex;gap:.85rem;margin-bottom:1.4rem;padding-top:.4rem}
+.p2-row{display:flex;gap:.85rem;margin-bottom:1.4rem;padding-top:.6rem}
 .ct{position:relative;width:5rem;text-align:center;font-size:.6rem;color:#e4e4e7;font-weight:600}
-.ct .note-bub{position:absolute;top:-.65rem;left:50%;transform:translateX(-50%);background:#26262a;border:1px solid #3f3f46;color:#fff;font-size:.5rem;padding:.18rem .42rem;border-radius:.7rem;white-space:nowrap;z-index:2}
+.ct .note-bub{position:absolute;top:-.85rem;left:50%;transform:translateX(-50%) scale(.8);opacity:0;background:#26262a;border:1px solid #4a181e;color:#fff;font-size:.54rem;font-weight:700;padding:.2rem .48rem;border-radius:.75rem;white-space:nowrap;z-index:2;transition:opacity .2s,transform .25s var(--ease)}
+.ct .note-bub.on{opacity:1;transform:translateX(-50%) scale(1)}
 .ct .img{width:4.2rem;height:4.2rem;margin:0 auto .4rem;box-shadow:0 0 0 .14rem #2a2a2e}
 .ct:nth-child(2) .img,.ct:nth-child(3) .img{box-shadow:0 0 0 .14rem var(--red)}
 .p2-h{font-size:.82rem;font-weight:800;color:#fff;margin-bottom:.9rem;display:flex;justify-content:space-between}
 .p2-h span{color:#ff4d5a;font-size:.68rem}
-.msg{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem}
+.msg{display:flex;align-items:center;gap:.8rem;margin-bottom:1.15rem;padding:.35rem .5rem;border-radius:.9rem;transition:background .25s}
+.msg.active{background:rgba(229,9,20,.14)}
 .msg .av-wrap{position:relative;flex:none}
 .msg .img{width:3.1rem;height:3.1rem}
 .msg .on-dot{position:absolute;right:0;bottom:0;width:.75rem;height:.75rem;border-radius:50%;background:#22c55e;border:.14rem solid #08080a}
-.msg b{display:flex;align-items:center;font-size:.78rem;gap:.3rem}
+.msg b{display:flex;align-items:center;font-size:.82rem;gap:.3rem}
 .msg .ver{display:inline-grid;place-items:center;width:.82rem;height:.82rem;border-radius:50%;background:#0a84ff;color:#fff;font-size:.5rem;font-weight:900}
-.msg small{display:block;font-size:.68rem;color:#e4e4e7;margin-top:.14rem;font-weight:500}
+.msg small{display:block;font-size:.74rem;color:#fff;margin-top:.16rem;font-weight:700;min-height:1rem;letter-spacing:-.01em}
 
 /* ============ S11 — HEADER CHAT ============ */
 #s11{background:#000}
@@ -466,7 +474,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       <!-- S3 IKON MUSIK (00:02.0 - 00:03.0) -->
       <section class="scene" id="s3" aria-hidden="true"><div class="cam">
         <div class="iconwrap"><div class="appicon"><div class="eq"><i></i><i></i><i></i><i></i><i></i></div></div></div>
-        <div class="capwrap"><div class="rv" style="--d:.2s" data-bind="s3cap">give you my kidney</div></div>
+        <div class="capwrap"><div class="rv" style="--d:.2s" data-bind="s3cap">Give my kidney</div></div>
         <div class="player">
           <div class="ctl"><span class="sk" style="transform:scaleX(-1)"></span><span class="play"></span><span class="sk"></span></div>
           <div class="tt"><span data-bind="trackTitle">RATHER LIE (with The Weeknd)</span><small data-bind="trackArtist">Playboi Carti, The Weeknd</small></div>
@@ -491,9 +499,10 @@ button{font:inherit;color:inherit;cursor:pointer}
         <div class="seltxt"><span id="selA">Same</span><span class="sel"><i class="hd l"></i><span id="selB">Damn Time</span><i class="hd r"></i></span></div>
       </div></section>
 
-      <!-- S7 KATA GLITCH (00:06.5 - 00:07.8) -->
+      <!-- S7 KATA GLITCH + AD-LIB SWAG (00:06.5 - 00:07.8) -->
       <section class="scene" id="s7" data-tr="cut" aria-hidden="true"><div class="cam"><div class="panel" id="panel">
         <div class="scanl"></div><div class="star">†</div><div class="band"></div>
+        <div class="swag-stamp">SWAG</div>
       </div></div></section>
 
       <!-- S8 HANDLE SOSIAL (00:07.8 - 00:08.9) -->
@@ -508,28 +517,28 @@ button{font:inherit;color:inherit;cursor:pointer}
         <div class="typedline"><span id="nPlain"></span><mark id="nMark"></mark><i class="caret"></i></div>
       </div></div></section>
 
-      <!-- S10 UI DM IG: KUROO + PLAYBOICARTI + BERLIN (HANYA LIRIK LAGU, TANPA SEEN) -->
+      <!-- S10 UI DM IG: LIRIK LAGU DIKETIK SESUAI VOKAL (00:12.6 - 00:16.0) -->
       <section class="scene" id="s10" aria-hidden="true"><div class="cam"><div class="phone2wrap"><div class="phone2">
         <div class="p2-top"><span><span data-bind="handle">kuroo</span><i class="chev"></i></span><span class="live-dot">● 00PIUM</span></div>
         <div class="p2-search"><i class="mag"></i></div>
         <div class="p2-row">
-          <div class="ct"><span class="note-bub">All of that</span><div class="img round" data-slot="c1" data-tone="1"></div>kuroo</div>
-          <div class="ct"><span class="note-bub">00pium †</span><div class="img round" data-slot="c2" data-tone="3"></div>playboicarti</div>
-          <div class="ct"><span class="note-bub">Rather lie</span><div class="img round" data-slot="c3"></div>berlin</div>
-          <div class="ct"><span class="note-bub">XO</span><div class="img round" data-slot="c4" data-tone="4"></div>theweeknd</div>
+          <div class="ct"><span class="note-bub" id="nb1"></span><div class="img round" data-slot="c1" data-tone="1"></div>kuroo</div>
+          <div class="ct"><span class="note-bub" id="nb2"></span><div class="img round" data-slot="c2" data-tone="3"></div>playboicarti</div>
+          <div class="ct"><span class="note-bub" id="nb3"></span><div class="img round" data-slot="c3"></div>berlin</div>
+          <div class="ct"><span class="note-bub" id="nb4"></span><div class="img round" data-slot="c4" data-tone="4"></div>theweeknd</div>
         </div>
         <div class="p2-h">Messages <span>Requests</span></div>
-        <div class="msg">
+        <div class="msg" id="msgRow1">
           <div class="av-wrap"><div class="img round" data-slot="c2" data-tone="3"></div><i class="on-dot"></i></div>
-          <div><b>playboicarti <span class="ver">✓</span></b><small>give you my card</small></div>
+          <div><b>playboicarti <span class="ver">✓</span></b><small id="dmLyric1"></small></div>
         </div>
-        <div class="msg">
+        <div class="msg" id="msgRow2">
           <div class="av-wrap"><div class="img round" data-slot="c3"></div><i class="on-dot"></i></div>
-          <div><b>berlin <span class="ver">✓</span></b><small>don't tell nobody</small></div>
+          <div><b>berlin <span class="ver">✓</span></b><small id="dmLyric2"></small></div>
         </div>
-        <div class="msg">
+        <div class="msg" id="msgRow3">
           <div class="av-wrap"><div class="img round" data-slot="c4" data-tone="4"></div></div>
-          <div><b>theweeknd <span class="ver">✓</span></b><small>tell you something</small></div>
+          <div><b>theweeknd <span class="ver">✓</span></b><small id="dmLyric3"></small></div>
         </div>
       </div></div></div></section>
 
@@ -588,7 +597,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     </div><!-- /world -->
   </div><!-- /bassWrap -->
 
-  <!-- FX GLOBAL (TANPA KILATAN MERAH) -->
+  <!-- FX GLOBAL (BERSIH TANPA KILATAN MERAH) -->
   <div id="fx" aria-hidden="true">
     <div class="vig"></div><div class="grain"></div><div class="scan"></div><div class="crtRoll"></div>
     <i class="gb gb1"></i><i class="gb gb2"></i><i class="gb gb3"></i>
@@ -621,7 +630,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 "use strict";
 
 /* =====================================================================
-   ★ PENGATURAN LAGU, FOTO & LIRIK ★
+   ★ PENGATURAN LAGU, FOTO & LIRIK (LENGKAP DENGAN AD-LIB SWAG) ★
    ===================================================================== */
 var CONFIG={
   audioSrc:"lagu.mp3",                    // File lagu MP3
@@ -640,7 +649,7 @@ var CONFIG={
   stats:[{n:141,l:"Following"},{n:1062,l:"Followers"},{n:53900,l:"Likes"}],
   bio:["<b>kuroo †</b>","Opium · Edit · Night shots","<em>kuroo.github.io</em>"],
   miniText:"Rather Lie",
-  s3cap:"give you my kidney",
+  s3cap:"Give my kidney",
   trackTitle:"RATHER LIE (with The Weeknd)",
   trackArtist:"Playboi Carti, The Weeknd",
   kinetic:[
@@ -658,20 +667,28 @@ var CONFIG={
   notes:{
     title:"Rather Lie",
     items:[
-      ["ima",1],
+      ["I'mma",1],
       ["crash",2],
       ["out",1],
-      ["cause",2],
+      ["'cause",2],
       ["you",1],
       ["mine",2]
     ],
-    typed:"imma pull up get behind"
+    typed:"I'mma pull up get behind you"
+  },
+  dmLyrics:{
+    note1:"All of that",
+    note2:"ass on me",
+    note3:"bite that",
+    msg1:"Give you my card so you swipe that",
+    msg2:"tell you something",
+    msg3:"Rather lie"
   },
   chat:{
     them:"It wasn't you, it's me",
-    me:"it ain't me, it's you"
+    me:"It ain't me, it's you"
   },
-  input:"i know its hard to see"
+  input:"I know it's hard to see"
 };
 
 /* ---------- Durasi tiap adegan (detik) — Total 30s ---------- */
@@ -686,7 +703,7 @@ var scenes=$$(".scene"),N=scenes.length;
 var starts=[],TOTAL=0,i;
 for(i=0;i<N;i++){starts.push(TOTAL);TOTAL+=DUR[i];}
 
-/* ---------- 1. AUDIO-REACTIVE BASS ANALYSER (AMAN DI SAFARI iOS) ---------- */
+/* ---------- 1. AUDIO-REACTIVE BASS ANALYSER ---------- */
 var actx=null,analyser=null,freqData=null,audioConnected=false,bassLevel=0;
 function initAudioAnalyser(){
   if(audioConnected||!CONFIG.audioSrc)return;
@@ -748,7 +765,7 @@ function initCanvas(){
   }
 }
 function drawCanvas(now,activeSpeed){
-  if(!ctx||now-lastDraw<28)return; /* Batasi ~35fps pada partikel agar hemat baterai & anti-lag */
+  if(!ctx||now-lastDraw<28)return;
   lastDraw=now;
   var W=cvs.width,H=cvs.height;
   ctx.clearRect(0,0,W,H);
@@ -904,11 +921,44 @@ hooks[0]={
 var nPlain=$("#nPlain"),nMark=$("#nMark"),typedFull=CONFIG.notes.typed,hlFrom=typedFull.lastIndexOf(" ")+1;
 hooks[8]={
   tick:function(lt){
-    var n=Math.floor(clamp((lt-1.7)/1.6,0,1)*typedFull.length);
+    var n=Math.floor(clamp((lt-1.6)/1.7,0,1)*typedFull.length);
     if(hooks[8]._n!==n){hooks[8]._n=n;nPlain.textContent=typedFull.slice(0,Math.min(n,hlFrom));nMark.textContent=n>hlFrom?typedFull.slice(hlFrom,n):"";}
   },
   reset:function(){hooks[8]._n=-1;nPlain.textContent="";nMark.textContent="";}
 };
+
+/* ---------- Hook Scene 10 (DM IG Lirik Hidup) ---------- */
+var nb1=$("#nb1"),nb2=$("#nb2"),nb3=$("#nb3"),nb4=$("#nb4");
+var dmLyric1=$("#dmLyric1"),dmLyric2=$("#dmLyric2"),dmLyric3=$("#dmLyric3");
+var msgRow1=$("#msgRow1"),msgRow2=$("#msgRow2");
+nb1.textContent=CONFIG.dmLyrics.note1;
+nb2.textContent=CONFIG.dmLyrics.note2;
+nb3.textContent=CONFIG.dmLyrics.note3;
+nb4.textContent="XO";
+hooks[9]={
+  tick:function(lt){
+    /* 0.0 - 1.2s: Gelembung notes muncul berurutan ("All of that" -> "ass on me" -> "bite that") */
+    nb1.classList.toggle("on",lt>=0.05);
+    nb2.classList.toggle("on",lt>=0.4);
+    nb3.classList.toggle("on",lt>=0.75);
+    nb4.classList.toggle("on",lt>=1.0);
+
+    /* 1.25 - 2.35s: Ketik lirik di chat playboicarti ("Give you my card so you swipe that") */
+    msgRow1.classList.toggle("active",lt>=1.2&&lt<2.35);
+    typed(dmLyric1,CONFIG.dmLyrics.msg1,lt,1.25,2.3);
+
+    /* 2.35 - 3.3s: Ketik lirik di chat berlin ("tell you something") */
+    msgRow2.classList.toggle("active",lt>=2.35);
+    typed(dmLyric2,CONFIG.dmLyrics.msg2,lt,2.35,3.25);
+    if(lt>=2.9)dmLyric3.textContent=CONFIG.dmLyrics.msg3;
+  },
+  reset:function(){
+    [nb1,nb2,nb3,nb4].forEach(function(b){b.classList.remove("on");});
+    msgRow1.classList.remove("active");msgRow2.classList.remove("active");
+    resetTyped(dmLyric1);resetTyped(dmLyric2);dmLyric3.textContent="";
+  }
+};
+
 var bMe=$("#bMe"),readLbl=$("#readLbl");
 hooks[11]={
   tick:function(lt){
