@@ -42,6 +42,11 @@ button{font:inherit;color:inherit;cursor:pointer}
   background:radial-gradient(95% 75% at 50% 48%,transparent calc(58% - var(--bass)*8%),rgba(0,0,0,.92) 100%)}
 
 .letterbox{position:absolute;left:0;right:0;height:2.4rem;background:#000;z-index:26;pointer-events:none}
+.mq{position:absolute;left:0;right:0;top:.62rem;overflow:hidden;white-space:nowrap}
+.mq span{display:inline-block;padding-left:100%;font:700 .58rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.34em;color:rgba(255,255,255,.55);animation:mq 14s linear infinite}
+@keyframes mq{to{transform:translateX(-100%)}}
+#spec{position:absolute;left:50%;top:.62rem;width:7rem;height:1.2rem;transform:translateX(-50%)}
+#stage.paused .mq span{animation-play-state:paused!important}
 .letterbox.top{top:0;border-bottom:1px solid rgba(255,255,255,.1)}
 .letterbox.bot{bottom:0;border-top:1px solid rgba(255,255,255,.1)}
 
@@ -362,6 +367,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .endbtn{width:3.6rem;height:3.6rem;border-radius:50%;background:#fff;display:grid;place-items:center;margin-bottom:2rem}
 .endbtn svg{width:1.6rem;height:1.6rem;fill:#000;transform:rotate(135deg)}
 #wave{width:14.5rem;height:9rem;margin-left:-2rem;display:block}
+.sub15{position:absolute;left:0;right:0;bottom:6.2rem;padding:0 1.4rem;text-align:center;font:900 .95rem/1.25 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;text-transform:uppercase;letter-spacing:-.01em;color:#000;pointer-events:none}
+.sub15 b{display:inline-block;max-width:100%;background:#fff;padding:.2rem .6rem;box-shadow:.25rem .25rem 0 #333;animation:subIn .28s cubic-bezier(.16,1,.3,1) both;font-weight:900}
+@keyframes subIn{from{opacity:0;filter:blur(4px);transform:scale(1.4)}to{opacity:1;filter:blur(0);transform:none}}
 #s15 .dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;will-change:opacity}
 #s15.live .dim{animation:dim 7.8s linear both}
 @keyframes dim{0%,45%{opacity:0}100%{opacity:1}}
@@ -371,6 +379,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 #fx .vig{position:absolute;inset:0;background:radial-gradient(125% 95% at 50% 50%,transparent 54%,rgba(0,0,0,.84) 100%)}
 #fx .grain{position:absolute;inset:-50%;background-image:var(--noise);opacity:.1;will-change:transform;animation:grain .9s steps(6) infinite}
 @keyframes grain{0%{transform:translate3d(0,0,0)}25%{transform:translate3d(-3%,2%,0)}50%{transform:translate3d(3%,-4%,0)}75%{transform:translate3d(-4%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+#fx .scr{position:absolute;top:0;bottom:0;left:0;width:1px;background:rgba(255,255,255,.4);opacity:0;animation:scr 2.7s steps(1) infinite}
+@keyframes scr{0%{opacity:0}6%{opacity:.55;transform:translateX(18vw)}8%{opacity:0}31%{opacity:.4;transform:translateX(71vw)}33%{opacity:0}58%{opacity:.5;transform:translateX(42vw)}60%{opacity:0}100%{opacity:0}}
+#fx .flick{position:absolute;inset:0;background:#fff;mix-blend-mode:overlay;opacity:0;animation:flick 3.3s steps(1) infinite}
+@keyframes flick{0%{opacity:0}41%{opacity:.06}42%{opacity:0}77%{opacity:.09}78%{opacity:.03}79%{opacity:0}100%{opacity:0}}
 #fx .scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)}
 
 #vhsTop{position:absolute;left:1.2rem;right:1.2rem;top:calc(env(safe-area-inset-top,0px) + 2.8rem);z-index:29;display:flex;justify-content:space-between;align-items:center;pointer-events:none;font:700 .62rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.18em;color:rgba(255,255,255,.72)}
@@ -398,6 +410,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 #intro .play::before{content:"";border-left:1.15rem solid #fff;border-top:.72rem solid transparent;border-bottom:.72rem solid transparent;margin-left:.3rem}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}100%{box-shadow:0 0 0 1.8rem rgba(255,255,255,0)}}
 #intro .tap{margin-top:1.1rem;font:600 .68rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.32em;color:#a1a1aa;animation:rvi 1.2s 1s both}
+
+/* EFEK TAMBAHAN 1-5 */
+#kin .ln{text-shadow:calc(var(--bass)*1rem) 0 0 rgba(255,255,255,.28),calc(var(--bass)*-1rem) 0 0 rgba(255,255,255,.12),0 .2rem 1rem rgba(0,0,0,.9)}
+#cap,.seltxt{text-shadow:calc(var(--bass)*.7rem) 0 0 rgba(255,255,255,.25),0 .2rem 1rem rgba(0,0,0,.95)}
+.img.has::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle,#000 34%,transparent 36%) 0 0/.34rem .34rem;mix-blend-mode:multiply;opacity:.38}
+#fx::before{content:"I AM MUSIC";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg) scale(calc(1 + var(--bass)*.05));font:900 8rem/1 -apple-system,"SF Pro Display",Roboto,sans-serif;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07)}
+#fx .strip{position:absolute;left:0;right:0;height:.9rem;background:#fff;mix-blend-mode:difference;opacity:0}
+#sweep{position:absolute;inset:0;z-index:25;pointer-events:none;opacity:0;mix-blend-mode:screen;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%)}
+#sweep.on{animation:sweepA .45s ease-out 1}
+@keyframes sweepA{0%{opacity:1;transform:translateX(-100%)}100%{opacity:0;transform:translateX(100%)}}
 </style>
 </head>
 <body>
@@ -405,8 +427,8 @@ button{font:inherit;color:inherit;cursor:pointer}
   <audio id="bgm" preload="auto" playsinline></audio>
 
   <div id="ambientGlow" aria-hidden="true"></div>
-  <div class="letterbox top" aria-hidden="true"></div>
-  <div class="letterbox bot" aria-hidden="true"></div>
+  <div class="letterbox top" aria-hidden="true"><canvas id="spec" width="140" height="24"></canvas></div>
+  <div class="letterbox bot" aria-hidden="true"><div class="mq"><span>I AM MUSIC &#10022; RATHER LIE &#10022; PLAYBOI CARTI &times; THE WEEKND &#10022; I AM MUSIC &#10022; RATHER LIE &#10022; PLAYBOI CARTI &times; THE WEEKND &#10022;</span></div></div>
 
   <div id="bassWrap">
     <div id="world">
@@ -563,13 +585,15 @@ button{font:inherit;color:inherit;cursor:pointer}
           </div></div></div>
           <canvas id="wave"></canvas>
         </div>
+        <div class="sub15" id="sub15"></div>
         <div class="dim"></div>
       </div></section>
     </div>
   </div>
 
   <div id="trFlash" aria-hidden="true"></div>
-  <div id="fx" aria-hidden="true"><div class="vig"></div><div class="grain"></div><div class="scan"></div></div>
+  <div id="sweep" aria-hidden="true"></div>
+  <div id="fx" aria-hidden="true"><div class="vig"></div><div class="grain"></div><div class="scan"></div><div class="strip" id="strip"></div><div class="scr"></div><div class="flick"></div></div>
   <div id="vhsTop" aria-hidden="true"><span class="rec-badge"><i></i>REC</span><span>I AM MUSIC · CAM 00</span></div>
   <div id="vhsBot" aria-hidden="true"><span>PLAY ▶</span><span>NOV 19 2026</span></div>
   <div id="hud"><span id="tc">00:00 / 00:30</span><button id="replay" type="button" aria-label="Putar ulang">↻</button></div>
@@ -601,20 +625,22 @@ var CONFIG={
     c4:"c4.JPG",
     chatAvatar:"chat avatar.JPG"
   },
-  miniText:"Rather Lie",
-  s3cap:"Give my kidney",
+  miniText:"True Love",
+  s3cap:"Give you my kidney",
   trackTitle:"RATHER LIE (with The Weeknd)",
   trackArtist:"Playboi Carti, The Weeknd",
-  kinetic:[{t:"First fill"},{t:"up your"},{t:"mind"},{t:"I'm spendin'"},{t:"and molly",hl:true}],
-  caption:"I'M OFF THE LEAN AND MOLLY AT THE",
+  kinetic:[{t:"Wrist"},{t:"flooded out"},{t:"yeah"},{t:"mind on"},{t:"spinning",hl:true}],
+  caption:"I'M OFF THE LEAN AND THE MOLLY AT THE",
   timeTag:"I AM MUSIC · 00",
   selection:["Same","Damn Time"],
-  glitchWords:["I CAN'T","EVEN","STAY UP","WHAT?"],
+  glitchWords:["I GOT","THIS BAG","I'M","WINNING"],
   lastSeen:"Wrist in the freezer",
-  notes:{title:"Rather Lie",items:[["ima",1],["crash",2],["out",1],["cause",2],["you",1],["mine",2]],typed:"imma pull up get behind"},
-  dmLyrics:{note1:"All of that",note2:"I AM MUSIC",note3:"ASS",note4:"XO",msg1:"give you my card",msg2:"don't tell nobody",msg3:"tell you somethin"},
+  notes:{title:"Rather Lie",items:[["I'ma",1],["cash",2],["out",1],["'cause",2],["you",1],["mine",2]],typed:"I'ma pull up, get behind you",hl:"behind you"},
+  dmLyrics:{note1:"All of that",note2:"ass on me",note3:"bite that",note4:"XO",msg1:"Give you my card",msg2:"tell you,",msg3:"\u201cSwipe that\u201d"},
   chat:{them:"It wasn't you, it's me",me:"It ain't me, it's you"},
-  input:"I know it's hard to see"
+  input:"I know it's hard to see",
+  /* Baris penutup (scene panggilan, 7.8 dtk). [detik_sejak_scene_mulai, teks] - ubah angka detik kalau kurang pas dengan lagu */
+  outro:[[0,"That I'd rather lie than to lose you"],[2.2,"I'd rather"],[3.4,"I'd rather"],[4.6,"I'd rather"],[5.8,"I'd rather lie than to..."]]
 };
 /* Durasi asli dikembalikan (total 30.0 detik) agar presisi dengan lirik & musik */
 var DUR=[1.0,1.0,1.0,1.4,1.1,1.0,1.3,1.1,3.7,3.4,0.6,3.0,1.6,1.0,7.8];
@@ -659,12 +685,24 @@ function initAudioAnalyser(){
     freqData=new Uint8Array(analyser.frequencyBinCount);audioConnected=true;
   }catch(e){audioConnected=false;}
 }
+var strip=$("#strip");
+var spec=$("#spec"),sctx=spec.getContext("2d");
+function drawSpec(t){
+  var W=spec.width,H=spec.height,n=16,bw=4,gap=4,x0=(W-(n*(bw+gap)-gap))/2,live=audioConnected&&analyser&&!bgm.paused,k,v,h;
+  sctx.clearRect(0,0,W,H);sctx.fillStyle="#fff";
+  for(k=0;k<n;k++){
+    v=live?clamp(freqData[k+1]/255*1.15,0,1):.3+.25*Math.sin(t*4+k*.7);
+    h=Math.max(2,v*H);sctx.globalAlpha=.35+.65*v;sctx.fillRect(x0+k*(bw+gap),H-h,bw,h);
+  }
+  sctx.globalAlpha=1;
+}
 function updateBass(t){
   var b=0;
   if(audioConnected&&analyser&&!bgm.paused){
     analyser.getByteFrequencyData(freqData);b=clamp(((freqData[0]+freqData[1]+freqData[2]+freqData[3])/(4*255)-0.38)*1.7,0,1);
   }else{b=Math.pow(1-((t*2.1)%1),4)*0.55;}
-  bassLevel=bassLevel*0.62+b*0.38;document.documentElement.style.setProperty("--bass",bassLevel.toFixed(3));
+  bassLevel=bassLevel*0.62+b*0.38;document.documentElement.style.setProperty("--bass",bassLevel.toFixed(3));drawSpec(t);
+  if(bassLevel>.5&&!strip._on){strip._on=1;strip.style.top=(Math.random()*92)+"%";strip.style.opacity=.9;setTimeout(function(){strip.style.opacity=0;strip._on=0;},70);}
 }
 
 if(CONFIG.audioSrc)bgm.src=CONFIG.audioSrc;
@@ -698,7 +736,7 @@ function drawWave(lt){
 }
 window.addEventListener("resize",function(){wgrad=null;if(cur===N-1)fitWave();});
 
-var hooks=[],nPlain=$("#nPlain"),nMark=$("#nMark"),typedFull=CONFIG.notes.typed,hlFrom=typedFull.lastIndexOf(" ")+1;
+var hooks=[],nPlain=$("#nPlain"),nMark=$("#nMark"),typedFull=CONFIG.notes.typed,hlFrom=(CONFIG.notes.hl&&typedFull.indexOf(CONFIG.notes.hl)>-1)?typedFull.indexOf(CONFIG.notes.hl):typedFull.lastIndexOf(" ")+1;
 hooks[8]={tick:function(lt){var n=Math.floor(clamp((lt-1.6)/1.7,0,1)*typedFull.length);if(hooks[8]._n!==n){hooks[8]._n=n;nPlain.textContent=typedFull.slice(0,Math.min(n,hlFrom));nMark.textContent=n>hlFrom?typedFull.slice(hlFrom,n):"";}},reset:function(){hooks[8]._n=-1;nPlain.textContent="";nMark.textContent="";}};
 var nb1=$("#nb1"),nb2=$("#nb2"),nb3=$("#nb3"),nb4=$("#nb4"),dmLyric1=$("#dmLyric1"),dmLyric2=$("#dmLyric2"),dmLyric3=$("#dmLyric3"),msgRow1=$("#msgRow1"),msgRow2=$("#msgRow2");
 nb1.textContent=CONFIG.dmLyrics.note1;nb2.textContent=CONFIG.dmLyrics.note2;nb3.textContent=CONFIG.dmLyrics.note3;nb4.textContent=CONFIG.dmLyrics.note4;
@@ -711,12 +749,14 @@ hooks[11]={tick:function(lt){typed(bMe,CONFIG.chat.me,lt,1.35,2.35);readLbl.clas
 var inTxt=$("#inTxt");
 hooks[12]={tick:function(lt){typed(inTxt,CONFIG.input,lt,.1,1.35);},reset:function(){resetTyped(inTxt);}};
 var cTime=$("#cTime");
-hooks[14]={enter:function(){wgrad=null;fitWave();},tick:function(lt){drawWave(lt);var q=Math.floor(lt)+24,s="00:"+q;if(cTime._s!==s){cTime._s=s;cTime.textContent=s;}},reset:function(){cTime._s=null;cTime.textContent="00:24";wctx.clearRect(0,0,wave.width,wave.height);}};
+var sub15=$("#sub15");
+hooks[14]={enter:function(){wgrad=null;fitWave();},tick:function(lt){drawWave(lt);var o=CONFIG.outro,tx="",j;for(j=0;j<o.length;j++)if(lt>=o[j][0])tx=o[j][1];if(sub15._s!==tx){sub15._s=tx;sub15.textContent="";if(tx){var bb=document.createElement("b");bb.textContent=tx;sub15.appendChild(bb);}}var q=Math.floor(lt)+24,s="00:"+q;if(cTime._s!==s){cTime._s=s;cTime.textContent=s;}},reset:function(){sub15._s=null;sub15.textContent="";cTime._s=null;cTime.textContent="00:24";wctx.clearRect(0,0,wave.width,wave.height);}};
 
 var running=false,paused=false,autoPaused=false,started=false,cur=-1,t0=0,tPause=0,raf=0,restartTimer=0,leaveAt={},prog=$("#prog i"),tc=$("#tc"),lastSec=-1,totalStr=fmtTime(TOTAL);
 tc.textContent="00:00 / "+totalStr;
 
 function transitionPulse(strong){
+  var sw=$("#sweep");sw.classList.remove("on");void sw.offsetWidth;sw.classList.add("on");
   trFlash.classList.remove("on");void trFlash.offsetWidth;trFlash.classList.add("on");
   world.classList.remove("beat","mblur","invertFlash");void world.offsetWidth;
   world.classList.add("beat","mblur");
