@@ -30,7 +30,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @keyframes shake{0%{transform:translate3d(-.65rem,.18rem,0) skewX(-1.6deg) scale(1.025)}33%{transform:translate3d(.7rem,-.18rem,0) scale(1.02)}66%{transform:translate3d(-.38rem,0,0) skewX(1.2deg)}100%{transform:none}}
 @keyframes beatPulse{0%{transform:scale(1.035)}100%{transform:scale(1)}}
 
-/* ---------- Kilatan & Whip Transisi Antar Foto/Scene ---------- */
+/* ---------- Kilatan Transisi Antar Foto/Scene ---------- */
 #trFlash{position:absolute;inset:0;pointer-events:none;z-index:24;opacity:0;
   background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.32) 0%,rgba(229,9,20,.28) 55%,transparent 90%);
   mix-blend-mode:screen}
@@ -64,8 +64,6 @@ button{font:inherit;color:inherit;cursor:pointer}
   filter:blur(14px) brightness(1.25);
   transition:opacity .42s var(--trEase),transform .58s var(--trEase),filter .46s var(--trEase),visibility 0s linear .44s;
   will-change:opacity,transform,filter}
-
-/* Variasi Arah Transisi Setiap Pergantian Foto/Adegan */
 .scene[data-in="zoomIn"]{transform:scale(1.28);filter:blur(16px) brightness(1.3)}
 .scene[data-in="zoomOut"]{transform:scale(.82);filter:blur(14px) brightness(1.25)}
 .scene[data-in="slideL"]{transform:translate3d(26%,0,0) scale(1.08) skewX(-5deg);filter:blur(14px)}
@@ -73,7 +71,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .scene[data-in="slideU"]{transform:translate3d(0,22%,0) scale(1.08);filter:blur(14px)}
 .scene[data-in="spin"]{transform:scale(1.24) rotate(-6deg);filter:blur(15px)}
 
-/* Posisi Keluar Scene Lama (Whip-Out / Zoom-Out mulus tumpang tindih dengan Scene Baru) */
 .scene.exiting{opacity:0;visibility:visible;z-index:1;
   transform:scale(.86) translate3d(-10%,0,0);
   filter:blur(14px) brightness(.75);
@@ -132,21 +129,26 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ls-btn svg{width:1.15rem;height:1.15rem;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .ls-home{width:8rem;height:.28rem;border-radius:1rem;background:rgba(255,255,255,.75)}
 
-/* S2 GALERI 3 FOTO + CAMERA LOCK KE LIRIK */
+/* S2 GALERI 3 FOTO — KAMERA PAN MULUS KE TIAP FOTO LALU LOCK DI TENGAH */
 #s2{background:radial-gradient(90% 60% at 50% 45%,#320e14 0%,#121214 55%,#050506 100%)}
 #s2 .cam{display:block;transform-origin:50% 50%}
-#s2.live .cam{animation:s2c 1.05s cubic-bezier(.22,.8,.25,1) both}
-@keyframes s2c{0%{transform:translate3d(2.6rem,-.8rem,0) scale(.94)}55%,100%{transform:translate3d(0,0,0) scale(1.14)}}
+#s2.live .cam{animation:s2c 1.0s cubic-bezier(.25,.8,.25,1) both}
+@keyframes s2c{
+  0%{transform:translate3d(4.2rem,6.5rem,0) scale(1.26) rotate(1.5deg)}
+  26%{transform:translate3d(-4.4rem,6.2rem,0) scale(1.26) rotate(-1.5deg)}
+  54%{transform:translate3d(-.4rem,-7.2rem,0) scale(1.24) rotate(1deg)}
+  80%,100%{transform:translate3d(0,0,0) scale(1.12) rotate(0deg)}
+}
 .frm{position:absolute;left:calc(50% + var(--x));top:calc(50% + var(--y));width:var(--w);height:var(--h);background:#09090a;padding:.45rem;box-shadow:0 1.2rem 2rem rgba(0,0,0,.85),inset 0 0 0 1px #4a181e;transform:rotate(var(--r,0deg))}
 .frm .mat{position:relative;width:100%;height:100%;background:#e4e4e7;padding:.75rem}
 .frm .img{width:100%;height:100%}
-#s2.live .frm{animation:frmIn .55s var(--ease) both;animation-delay:var(--d,0s)}
-@keyframes frmIn{from{opacity:0;filter:blur(6px);transform:translate3d(0,1.6rem,0) scale(.86) rotate(var(--r,0deg))}to{opacity:1;filter:blur(0);transform:rotate(var(--r,0deg))}}
+#s2.live .frm{animation:frmIn .45s var(--ease) both;animation-delay:var(--d,0s)}
+@keyframes frmIn{from{opacity:0;filter:blur(5px);transform:translate3d(0,1.2rem,0) scale(.9) rotate(var(--r,0deg))}to{opacity:1;filter:blur(0);transform:rotate(var(--r,0deg))}}
 .s2-lyric-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:.65rem;background:rgba(10,10,12,.88);backdrop-filter:blur(12px);border:1.5px solid var(--red);border-radius:1.25rem;padding:1.1rem 1.8rem;box-shadow:0 1rem 2.6rem rgba(0,0,0,.92),0 0 1.6rem rgba(229,9,20,.45)}
 .s2-lyric-center .b{font-size:1.55rem;font-weight:900;color:#fff;letter-spacing:-.02em;white-space:nowrap;text-shadow:-1px 0 rgba(255,0,50,.65),1px 0 rgba(0,220,255,.55)}
 .s2-lyric-center .e{font-size:1.15rem;letter-spacing:.45rem;padding-left:.45rem}
-#s2.live .s2-lyric-center{animation:lyricFocus .55s .12s cubic-bezier(.16,1,.3,1) both}
-@keyframes lyricFocus{from{opacity:0;filter:blur(6px);transform:translate(-50%,-50%) scale(.78)}to{opacity:1;filter:blur(0);transform:translate(-50%,-50%) scale(1)}}
+#s2.live .s2-lyric-center{animation:lyricFocus .38s .58s cubic-bezier(.16,1,.3,1) both}
+@keyframes lyricFocus{from{opacity:0;filter:blur(6px);transform:translate(-50%,-50%) scale(.72)}to{opacity:1;filter:blur(0);transform:translate(-50%,-50%) scale(1)}}
 
 /* S3 IKON MUSIK */
 #s3{background:radial-gradient(80% 60% at 50% 38%,#3a0b11,#121215 60%,#050507)}
@@ -489,7 +491,7 @@ button{font:inherit;color:inherit;cursor:pointer}
         </div>
       </section>
 
-      <!-- S2 GALERI 3 FOTO + CAMERA LOCK KE LIRIK -->
+      <!-- S2 GALERI 3 FOTO — PAN KE TIAP FOTO LALU CAMERA LOCK KE LIRIK -->
       <section class="scene" id="s2" data-in="slideL" aria-hidden="true"><div class="cam">
         <div class="frm" style="--x:-10.8rem;--y:-15.5rem;--w:10.5rem;--h:13.5rem;--r:-4deg;--d:.0s"><div class="mat"><div class="img" data-slot="gal1" data-tone="1"></div></div></div>
         <div class="frm" style="--x:1.5rem;--y:-14.5rem;--w:9.8rem;--h:12.5rem;--r:3.5deg;--d:.08s"><div class="mat"><div class="img" data-slot="gal2" data-tone="4"></div></div></div>
